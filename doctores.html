@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantilla de Personal Médico</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            margin: 30px;
+            color: #2d3748;
+            background-color: #f7fafc;
+            font-size: 14px;
+        }
+
+        .header-container {
+            border-bottom: 3px solid #3182ce;
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: #2c5282;
+            margin: 0 0 4px 0;
+            font-size: 26px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+
+        .meta-info {
+            font-size: 14px;
+            color: #718096;
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2b6cb0;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            padding: 14px 12px;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+            line-height: 1.4;
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #f8fafc;
+        }
+
+        tbody tr:hover {
+            background-color: #edf2f7;
+            transition: background-color 0.2s ease;
+        }
+
+        .doctor-name {
+            font-weight: 700;
+            color: #1a365d;
+            font-size: 15px;
+            display: block;
+        }
+
+        .sub-text {
+            color: #718096;
+            font-size: 12px;
+        }
+
+        .specialty {
+            font-weight: 700;
+            color: #2b6cb0;
+        }
+
+        .subspecialty {
+            font-size: 12px;
+            font-style: italic;
+            color: #4a5568;
+            margin-bottom: 2px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            color: #2d3748;
+            background-color: #edf2f7;
+            padding: 2px 5px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 3px;
+            letter-spacing: 0.3px;
+        }
+
+        .badge-turno {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        .matutino { background-color: #e6fffa; color: #234e52; border: 1px solid #b2f5ea; }
+        .vespertino { background-color: #fffaf0; color: #7b341e; border: 1px solid #feebc8; }
+        .mixto { background-color: #f7fafc; color: #4a5568; border: 1px solid #e2e8f0; }
+
+        .status-activo {
+            color: #22543d;
+            background-color: #c6f6d5;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid #9ae6b4;
+            display: inline-block;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>Control de Plantilla Médica</h1>
+        <div class="meta-info">Registro Interno de Especialistas • Directorio Corporativo Activo</div>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 18%;">Médico Especialista</th>
+                    <th style="width: 22%;">Especialidad e Historial</th>
+                    <th style="width: 22%;">Identificaciones Oficiales</th>
+                    <th style="width: 13%;">Horario y Turno</th>
+                    <th style="width: 15%;">Consultorio y Contacto</th>
+                    <th style="width: 10%; text-align: center;">Estatus Laboral</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="doctor-name">Dr. Carlos Ramírez</span>
+                        <span class="sub-text">Edad: 48 años</span>
+                    </td>
+                    <td>
+                        <div class="specialty">Cardiología</div>
+                        <span class="sub-text">Cédula:</span> 7844561<br>
+                        <span class="sub-text">Experiencia:</span> 12 años
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>RRC9192937U</code><br>
+                        <span class="sub-text">CURP:</span> <code>RRC919297373T73R</code>
+                    </td>
+                    <td>
+                        <strong>Lun-Mie</strong><br>
+                        <span class="sub-text">9:00 - 15:00</span><br>
+                        <span class="badge-turno matutino">Matutino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 55111123<br>
+                        <span class="sub-text">Ubicación:</span> Av basanopa 2727
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>10/03/2018</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="doctor-name">Dr. Ana Torres</span>
+                        <span class="sub-text">Edad: 35 años</span>
+                    </td>
+                    <td>
+                        <div class="specialty">Pediatría</div>
+                        <span class="sub-text">Cédula:</span> 4561237<br>
+                        <span class="sub-text">Experiencia:</span> 8 años
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>TTA850197GA62</code><br>
+                        <span class="sub-text">CURP:</span> <code>TTA85072RRR71789</code>
+                    </td>
+                    <td>
+                        <strong>Mar-Jue</strong><br>
+                        <span class="sub-text">10:00 - 16:00</span><br>
+                        <span class="badge-turno matutino">Matutino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 55111123<br>
+                        <span class="sub-text">Ubicación:</span> Av torres 2727
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>11/07/2020</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="doctor-name">Dr. Alejandro Pineda Ruiz</span>
+                        <span class="sub-text">Edad: 45 años</span>
+                    </td>
+                    <td>
+                        <div class="specialty">Cardiología</div>
+                        <span class="sub-text">Cédula:</span> 5678901<br>
+                        <span class="sub-text">Experiencia:</span> 15 años
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>PIRR800215AB1</code><br>
+                        <span class="sub-text">CURP:</span> <code>PIRA800215HDFNLA01</code>
+                    </td>
+                    <td>
+                        <strong>Lun-Vie</strong><br>
+                        <span class="sub-text">8:00 - 14:00</span><br>
+                        <span class="badge-turno matutino">Matutino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5511122233<br>
+                        <span class="sub-text">Ubicación:</span> Av. Insurgentes Sur 1234, Col. Del Valle, CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>12/03/2015</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="doctor-name">Dra. Paola Martínez Cruz</span>
+                        <span class="sub-text">Edad: 38 años</span>
+                    </td>
+                    <td>
+                        <div class="specialty">Pediatría</div>
+                        <div class="subspecialty">Sub: Neonatología</div>
+                        <span class="sub-text">Cédula:</span> 6789012<br>
+                        <span class="sub-text">Experiencia:</span> 12 años
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>MACP850430CD2</code><br>
+                        <span class="sub-text">CURP:</span> <code>MACP850430MDFTRL02</code>
+                    </td>
+                    <td>
+                        <strong>Lun-Vie</strong><br>
+                        <span class="sub-text">14:00 - 20:00</span><br>
+                        <span class="badge-turno vespertino">Vespertino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5522233344<br>
+                        <span class="sub-text">Ubicación:</span> Calz. de Tlalpan 456, Col. Portales, CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>21/07/2018</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="doctor-name">Dr. Sergio Castillo Mora</span>
+                        <span class="sub-text">Edad: 50 años</span>
+                    </td>
+                    <td>
+                        <div class="specialty">Traumatología</div>
+                        <div class="subspecialty">Sub: Ortopedia Deportiva</div>
+                        <span class="sub-text">Cédula:</span> 7890123<br>
+                        <span class="sub-text">Experiencia:</span> 20 años
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>CAMS780912EF3</code><br>
+                        <span class="sub-text">CURP:</span> <code>CAMS780912HDFSLR03</code>
+                    </td>
+                    <td>
+                        <strong>Lun-Sáb</strong><br>
+                        <span class="sub-text">9:00 - 15:00</span><br>
+                        <span class="badge-turno matutino">Matutino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5533344455<br>
+                        <span class="sub-text">Ubicación:</span> Av. Universidad 890, Col. Copilco, CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>15/01/2010</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="doctor-name">Dra. Karla Jiménez Soto</span>
+                        <span class="sub-text">Edad: 34 años</span>
+                    </td>
+                    <td>
+                        <div class="specialty">Dermatología</div>
+                        <span class="sub-text">Cédula:</span> 8901234<br>
+                        <span class="sub-text">Experiencia:</span> 9 años
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>JISK900101GH4</code><br>
+                        <span class="sub-text">CURP:</span> <code>JISK900101MDFMTR04</code>
+                    </td>
+                    <td>
+                        <strong>Lun-Vie</strong><br>
+                        <span class="sub-text">13:00 - 19:00</span><br>
+                        <span class="badge-turno vespertino">Vespertino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5544455566<br>
+                        <span class="sub-text">Ubicación:</span> Eje 6 Sur 321, Col. Narvarte, CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>10/09/2019</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="doctor-name">Dr. Miguel Ángel Ríos</span>
+                        <span class="sub-text">Edad: 42 años</span>
+                    </td>
+                    <td>
+                        <div class="specialty">Neurología</div>
+                        <span class="sub-text">Cédula:</span> 9012345<br>
+                        <span class="sub-text">Experiencia:</span> 14 años
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>RIMM820623IJ5</code><br>
+                        <span class="sub-text">CURP:</span> <code>RIMM820623HDFGLG05</code>
+                    </td>
+                    <td>
+                        <strong>Lun-Vie</strong><br>
+                        <span class="sub-text">10:00 - 18:00</span><br>
+                        <span class="badge-turno mixto">Mixto</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5555566677<br>
+                        <span class="sub-text">Ubicación:</span> Av. Revolución 654, Col. San Ángel, CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>05/04/2016</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="doctor-name">Dra. Laura Hernández Gil</span>
+                        <span class="sub-text">Edad: 39 años</span>
+                    </td>
+                    <td>
+                        <div class="specialty">Ginecología</div>
+                        <span class="sub-text">Cédula:</span> 1122334<br>
+                        <span class="sub-text">Experiencia:</span> 13 años
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>HEGL870315UV6</code><br>
+                        <span class="sub-text">CURP:</span> <code>HEGL870315MDFRRL06</code>
+                    </td>
+                    <td>
+                        <strong>Lun-Vie</strong><br>
+                        <span class="sub-text">8:00 - 14:00</span><br>
+                        <span class="badge-turno matutino">Matutino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5566677788<br>
+                        <span class="sub-text">Ubicación:</span> Periférico Sur 1500, Col. Jardines del Pedregal, CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>18/06/2017</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="doctor-name">Dr. Andrés Navarro León</span>
+                        <span class="sub-text">Edad: 47 años</span>
+                    </td>
+                    <td>
+                        <div class="specialty">Medicina Interna</div>
+                        <span class="sub-text">Cédula:</span> 2233445<br>
+                        <span class="sub-text">Experiencia:</span> 18 años
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>NALA830422WX7</code><br>
+                        <span class="sub-text">CURP:</span> <code>NALA830422HDFVNR07</code>
+                    </td>
+                    <td>
+                        <strong>Lun-Vie</strong><br>
+                        <span class="sub-text">15:00 - 21:00</span><br>
+                        <span class="badge-turno vespertino">Vespertino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5577788899<br>
+                        <span class="sub-text">Ubicación:</span> Av. Patriotismo 742, Col. Escandón, CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>03/11/2012</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="doctor-name">Dra. Sofía Cabrera Torres</span>
+                        <span class="sub-text">Edad: 36 años</span>
+                    </td>
+                    <td>
+                        <div class="specialty">Oftalmología</div>
+                        <span class="sub-text">Cédula:</span> 3344556<br>
+                        <span class="sub-text">Experiencia:</span> 11 años
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>CATSO920712YZ8</code><br>
+                        <span class="sub-text">CURP:</span> <code>CATSO920712MDFBRF08</code>
+                    </td>
+                    <td>
+                        <strong>Lun-Vie</strong><br>
+                        <span class="sub-text">9:00 - 15:00</span><br>
+                        <span class="badge-turno matutino">Matutino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5588899900<br>
+                        <span class="sub-text">Ubicación:</span> Av. Coyoacán 1010, Col. Del Valle, CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>14/02/2020</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

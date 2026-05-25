@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantilla de Personal de Enfermería</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            margin: 30px;
+            color: #2c3e50;
+            background-color: #fcfdfd;
+            font-size: 14px;
+        }
+
+        .header-container {
+            border-bottom: 3px solid #16a085;
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: #117a65;
+            margin: 0 0 4px 0;
+            font-size: 26px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+
+        .meta-info {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #d5dbdb;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #117a65;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            padding: 14px 12px;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e5e7e9;
+            vertical-align: top;
+            line-height: 1.4;
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #f9fbfb;
+        }
+
+        tbody tr:hover {
+            background-color: #eaeded;
+            transition: background-color 0.2s ease;
+        }
+
+        .staff-name {
+            font-weight: 700;
+            color: #145a32;
+            font-size: 15px;
+            display: block;
+        }
+
+        .sub-text {
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+
+        .area-assigned {
+            font-weight: 700;
+            color: #16a085;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            color: #2c3e50;
+            background-color: #eaeded;
+            padding: 2px 5px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 3px;
+            letter-spacing: 0.3px;
+        }
+
+        .badge-turno {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        .matutino { background-color: #e8f8f5; color: #117864; border: 1px solid #a3e4d7; }
+        .vespertino { background-color: #fef9e7; color: #b7950b; border: 1px solid #f9e79f; }
+        .nocturno { background-color: #eaf2f8; color: #2471a3; border: 1px solid #a9cce3; }
+
+        .status-activo {
+            color: #196f3d;
+            background-color: #d5f5e3;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid #2ecc71;
+            display: inline-block;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>Plantilla de Personal de Enfermería</h1>
+        <div class="meta-info">Registro de Asignaciones • Control Interno Hospitalario</div>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Enfermero(a) / Edad</th>
+                    <th style="width: 20%;">Área Asignada e Historial</th>
+                    <th style="width: 22%;">Identificaciones Oficiales</th>
+                    <th style="width: 12%;">Turno</th>
+                    <th style="width: 14%;">Contacto</th>
+                    <th style="width: 12%; text-align: center;">Estatus Laboral</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="staff-name">Ana García López</span>
+                        <span class="sub-text">Edad: 30 años</span>
+                    </td>
+                    <td>
+                        <div class="area-assigned">Urgencias</div>
+                        <span class="sub-text">Cédula:</span> 78945612
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>GALA940312KL1</code><br>
+                        <span class="sub-text">CURP:</span> <code>GALA940312MDFRPN01</code>
+                    </td>
+                    <td>
+                        <span class="badge-turno matutino">Matutino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5511122233<br>
+                        <span class="sub-text">Ubicación:</span> CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>15/02/2019</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="staff-name">Luis Mendoza Pérez</span>
+                        <span class="sub-text">Edad: 34 años</span>
+                    </td>
+                    <td>
+                        <div class="area-assigned">Terapia Intensiva</div>
+                        <span class="sub-text">Cédula:</span> 78945613
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>MEPL880720MN2</code><br>
+                        <span class="sub-text">CURP:</span> <code>MEPL880720HDFNRL02</code>
+                    </td>
+                    <td>
+                        <span class="badge-turno nocturno">Nocturno</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5522233344<br>
+                        <span class="sub-text">Ubicación:</span> CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>20/06/2018</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="staff-name">Laura Hernández</span>
+                        <span class="sub-text">Edad: 32 años</span>
+                    </td>
+                    <td>
+                        <div class="area-assigned">Urgencias</div>
+                        <span class="sub-text">Cédula:</span> 78945614
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>HELA910505OP3</code><br>
+                        <span class="sub-text">CURP:</span> <code>HELA910505MDFRRA03</code>
+                    </td>
+                    <td>
+                        <span class="badge-turno matutino">Matutino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5512233445<br>
+                        <span class="sub-text">Ubicación:</span> CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>14/03/2018</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="staff-name">Pedro Sánchez</span>
+                        <span class="sub-text">Edad: 29 años</span>
+                    </td>
+                    <td>
+                        <div class="area-assigned">Pediatría</div>
+                        <span class="sub-text">Cédula:</span> 78945615
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>SAPE950808QR4</code><br>
+                        <span class="sub-text">CURP:</span> <code>SAPE950808HDFNDR04</code>
+                    </td>
+                    <td>
+                        <span class="badge-turno vespertino">Vespertino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5523344556<br>
+                        <span class="sub-text">Ubicación:</span> CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>22/07/2019</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="staff-name">Mariana López</span>
+                        <span class="sub-text">Edad: 35 años</span>
+                    </td>
+                    <td>
+                        <div class="area-assigned">Hospitalización</div>
+                        <span class="sub-text">Cédula:</span> 78945616
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>LOMM870909ST5</code><br>
+                        <span class="sub-text">CURP:</span> <code>LOMM870909MDFPRS05</code>
+                    </td>
+                    <td>
+                        <span class="badge-turno nocturno">Nocturno</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5534455667<br>
+                        <span class="sub-text">Ubicación:</span> CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>05/11/2017</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="staff-name">Jorge Castillo</span>
+                        <span class="sub-text">Edad: 40 años</span>
+                    </td>
+                    <td>
+                        <div class="area-assigned">Quirófano</div>
+                        <span class="sub-text">Cédula:</span> 78945617
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>CAJJ850118UV6</code><br>
+                        <span class="sub-text">CURP:</span> <code>CAJJ850118HDFSRR06</code>
+                    </td>
+                    <td>
+                        <span class="badge-turno matutino">Matutino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5545566778<br>
+                        <span class="sub-text">Ubicación:</span> CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>18/01/2015</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="staff-name">Daniela Cruz</span>
+                        <span class="sub-text">Edad: 28 años</span>
+                    </td>
+                    <td>
+                        <div class="area-assigned">Medicina Interna</div>
+                        <span class="sub-text">Cédula:</span> 78945618
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>CUDD960909WX7</code><br>
+                        <span class="sub-text">CURP:</span> <code>CUDD960909MDFRNL07</code>
+                    </td>
+                    <td>
+                        <span class="badge-turno vespertino">Vespertino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5556677889<br>
+                        <span class="sub-text">Ubicación:</span> CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>09/09/2020</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="staff-name">Ricardo Torres</span>
+                        <span class="sub-text">Edad: 33 años</span>
+                    </td>
+                    <td>
+                        <div class="area-assigned">Cardiología</div>
+                        <span class="sub-text">Cédula:</span> 78945619
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>TORM900303YZ8</code><br>
+                        <span class="sub-text">CURP:</span> <code>TORM900303HDFRCL08</code>
+                    </td>
+                    <td>
+                        <span class="badge-turno nocturno">Nocturno</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5567788990<br>
+                        <span class="sub-text">Ubicación:</span> CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>30/06/2016</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="staff-name">Sofía Morales</span>
+                        <span class="sub-text">Edad: 31 años</span>
+                    </td>
+                    <td>
+                        <div class="area-assigned">Ginecología</div>
+                        <span class="sub-text">Cédula:</span> 78945620
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>MOSF920712AA9</code><br>
+                        <span class="sub-text">CURP:</span> <code>MOSF920712MDFRPR09</code>
+                    </td>
+                    <td>
+                        <span class="badge-turno matutino">Matutino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5578899001<br>
+                        <span class="sub-text">Ubicación:</span> CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>12/12/2018</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="staff-name">Andrés Navarro</span>
+                        <span class="sub-text">Edad: 37 años</span>
+                    </td>
+                    <td>
+                        <div class="area-assigned">Consulta Externa</div>
+                        <span class="sub-text">Cédula:</span> 78945621
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>NAAA880101BB0</code><br>
+                        <span class="sub-text">CURP:</span> <code>NAAA880101HDFRND10</code>
+                    </td>
+                    <td>
+                        <span class="badge-turno vespertino">Vespertino</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">Tel:</span> 5589900112<br>
+                        <span class="sub-text">Ubicación:</span> CDMX
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="status-activo">Activo</span><br>
+                        <span class="sub-text">Contratación:<br>25/04/2014</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

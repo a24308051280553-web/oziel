@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda General de Citas Médicas</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            margin: 30px;
+            color: #2c3e50;
+            background-color: #fcfaff;
+            font-size: 14px;
+        }
+
+        .header-container {
+            border-bottom: 3px solid #6c5ce7;
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: #4834d4;
+            margin: 0 0 4px 0;
+            font-size: 26px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+
+        .meta-info {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #dcdde1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4834d4;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            padding: 14px 12px;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #f1f2f6;
+            vertical-align: middle;
+            line-height: 1.4;
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #fbfbfb;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f2f6;
+            transition: background-color 0.2s ease;
+        }
+
+        .patient-name {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 15px;
+            display: block;
+        }
+
+        .doc-assigned {
+            font-size: 12px;
+            color: #6c5ce7;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .date-time {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .sub-text {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .room-badge {
+            display: inline-block;
+            background-color: #f1f2f6;
+            color: #2f3640;
+            font-weight: 600;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            border: 1px solid #dcdde1;
+        }
+
+        .reason-text {
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        .diag-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2f3640;
+        }
+
+        .pendiente-texto {
+            color: #e67e22;
+            font-style: italic;
+            font-weight: normal;
+        }
+
+        .cost-amount {
+            font-weight: 700;
+            color: #27ae60;
+            font-size: 14px;
+        }
+
+        .badge-status {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            text-align: center;
+            width: 100px;
+        }
+
+        .programada {
+            background-color: #e3f2fd;
+            color: #1e88e5;
+            border: 1px solid #bbdefb;
+        }
+
+        .completada {
+            background-color: #e8f5e9;
+            color: #43a047;
+            border: 1px solid #c8e6c9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>Agenda General de Citas Médicas</h1>
+        <div class="meta-info">Control de Consultas, Diagnósticos, Tratamientos y Cobros</div>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 22%;">Paciente / Médico Atendiente</th>
+                    <th style="width: 12%; text-align: center;">Fecha y Hora</th>
+                    <th style="width: 10%; text-align: center;">Consultorio</th>
+                    <th style="width: 25%;">Motivo y Diagnóstico</th>
+                    <th style="width: 14%;">Tratamiento Indicado</th>
+                    <th style="width: 10%;">Costo y Pago</th>
+                    <th style="width: 7%; text-align: center;">Estatus</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="patient-name">Juan Pérez</span>
+                        <div class="doc-assigned">Atiende: Dr. Carlos Ramírez</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="date-time">2025-04-25</div>
+                        <div class="sub-text">10:30 hrs</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="room-badge">Con. 101</span>
+                    </td>
+                    <td>
+                        <div class="reason-text"><span class="sub-text">Motivo:</span> Dolor en el pecho</div>
+                        <div class="diag-text pendiente-texto"><span class="sub-text">Diag:</span> Pendiente</div>
+                    </td>
+                    <td>
+                        <div class="pendiente-texto">Pendiente</div>
+                    </td>
+                    <td>
+                        <div class="cost-amount">$800</div>
+                        <div class="sub-text">Efectivo</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="badge-status programada">Programada</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Maria López</span>
+                        <div class="doc-assigned">Atiende: Dra. Ana Torres</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="date-time">2026-04-18</div>
+                        <div class="sub-text">12:00 hrs</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="room-badge">Con. 102</span>
+                    </td>
+                    <td>
+                        <div class="reason-text"><span class="sub-text">Motivo:</span> Revisión general</div>
+                        <div class="diag-text"><span class="sub-text">Diag:</span> Migraña</div>
+                    </td>
+                    <td>
+                        <div>Ibuprofeno</div>
+                    </td>
+                    <td>
+                        <div class="cost-amount">$600</div>
+                        <div class="sub-text">Tarjeta</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="badge-status completada">Completada</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Carlos Méndez Ruiz</span>
+                        <div class="doc-assigned">Atiende: Dr. Alejandro Pineda Ruiz</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="date-time">2025-03-01</div>
+                        <div class="sub-text">09:00 hrs</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="room-badge">Con. 103</span>
+                    </td>
+                    <td>
+                        <div class="reason-text"><span class="sub-text">Motivo:</span> Revisión presión</div>
+                        <div class="diag-text"><span class="sub-text">Diag:</span> Hipertensión leve</div>
+                    </td>
+                    <td>
+                        <div>Ajuste medicamento</div>
+                    </td>
+                    <td>
+                        <div class="cost-amount">$700</div>
+                        <div class="sub-text">Tarjeta</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="badge-status programada">Programada</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Fernanda López Díaz</span>
+                        <div class="doc-assigned">Atiende: Dra. Paola Martínez Cruz</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="date-time">2025-03-02</div>
+                        <div class="sub-text">16:00 hrs</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="room-badge">Con. 104</span>
+                    </td>
+                    <td>
+                        <div class="reason-text"><span class="sub-text">Motivo:</span> Control anemia</div>
+                        <div class="diag-text"><span class="sub-text">Diag:</span> Anemia</div>
+                    </td>
+                    <td>
+                        <div>Suplemento hierro</div>
+                    </td>
+                    <td>
+                        <div class="cost-amount">$650</div>
+                        <div class="sub-text">Efectivo</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="badge-status programada">Programada</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Jorge Ramírez Soto</span>
+                        <div class="doc-assigned">Atiende: Dr. Sergio Castillo Mora</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="date-time">2025-03-03</div>
+                        <div class="sub-text">11:30 hrs</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="room-badge">Con. 105</span>
+                    </td>
+                    <td>
+                        <div class="reason-text"><span class="sub-text">Motivo:</span> Dolor pie</div>
+                        <div class="diag-text"><span class="sub-text">Diag:</span> Úlcera diabética</div>
+                    </td>
+                    <td>
+                        <div>Curación y control</div>
+                    </td>
+                    <td>
+                        <div class="cost-amount">$800</div>
+                        <div class="sub-text">Transferencia</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="badge-status programada">Programada</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Daniela Torres Vega</span>
+                        <div class="doc-assigned">Atiende: Dra. Karla Jiménez Soto</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="date-time">2025-03-04</div>
+                        <div class="sub-text">17:00 hrs</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="room-badge">Con. 106</span>
+                    </td>
+                    <td>
+                        <div class="reason-text"><span class="sub-text">Motivo:</span> Irritación piel</div>
+                        <div class="diag-text"><span class="sub-text">Diag:</span> Dermatitis leve</div>
+                    </td>
+                    <td>
+                        <div>Crema tópica</div>
+                    </td>
+                    <td>
+                        <div class="cost-amount">$600</div>
+                        <div class="sub-text">Tarjeta</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="badge-status programada">Programada</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Luis Herrera Campos</span>
+                        <div class="doc-assigned">Atiende: Dr. Miguel Ángel Ríos</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="date-time">2025-03-05</div>
+                        <div class="sub-text">12:00 hrs</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="room-badge">Con. 105</span>
+                    </td>
+                    <td>
+                        <div class="reason-text"><span class="sub-text">Motivo:</span> Dolor cabeza</div>
+                        <div class="diag-text"><span class="sub-text">Diag:</span> Migraña</div>
+                    </td>
+                    <td>
+                        <div>Analgésicos</div>
+                    </td>
+                    <td>
+                        <div class="cost-amount">$750</div>
+                        <div class="sub-text">Efectivo</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="badge-status programada">Programada</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Mariana Cruz León</span>
+                        <div class="doc-assigned">Atiende: Dra. Laura Hernández Gil</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="date-time">2025-03-06</div>
+                        <div class="sub-text">10:00 hrs</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="room-badge">Con. 107</span>
+                    </td>
+                    <td>
+                        <div class="reason-text"><span class="sub-text">Motivo:</span> Revisión general</div>
+                        <div class="diag-text"><span class="sub-text">Diag:</span> Control rutinario</div>
+                    </td>
+                    <td>
+                        <div>Estudios</div>
+                    </td>
+                    <td>
+                        <div class="cost-amount">$700</div>
+                        <div class="sub-text">Transferencia</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="badge-status programada">Programada</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Ricardo Navarro Gil</span>
+                        <div class="doc-assigned">Atiende: Dr. Andrés Navarro León</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="date-time">2025-03-07</div>
+                        <div class="sub-text">18:30 hrs</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="room-badge">Con. 108</span>
+                    </td>
+                    <td>
+                        <div class="reason-text"><span class="sub-text">Motivo:</span> Colesterol</div>
+                        <div class="diag-text"><span class="sub-text">Diag:</span> Hiperlipidemia</div>
+                    </td>
+                    <td>
+                        <div>Dieta + estatinas</div>
+                    </td>
+                    <td>
+                        <div class="cost-amount">$850</div>
+                        <div class="sub-text">Tarjeta</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="badge-status programada">Programada</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Sofía Morales Ríos</span>
+                        <div class="doc-assigned">Atiende: Dra. Sofía Cabrera Torres</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="date-time">2025-03-08</div>
+                        <div class="sub-text">09:30 hrs</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="room-badge">Con. 110</span>
+                    </td>
+                    <td>
+                        <div class="reason-text"><span class="sub-text">Motivo:</span> Revisión vista</div>
+                        <div class="diag-text"><span class="sub-text">Diag:</span> Miopía leve</div>
+                    </td>
+                    <td>
+                        <div>Lentes graduados</div>
+                    </td>
+                    <td>
+                        <div class="cost-amount">$600</div>
+                        <div class="sub-text">Efectivo</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <span class="badge-status programada">Programada</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro Clínico de Pacientes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 20px;
+            color: #2c3e50;
+            background-color: #f8fafc;
+            font-size: 14px;
+        }
+
+        .header-container {
+            border-bottom: 3px solid #1a5276;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #1a5276;
+            margin: 0 0 5px 0;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        .meta-info {
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1a5276;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            padding: 12px 10px;
+            border: 1px solid #1a5276;
+        }
+
+        td {
+            padding: 12px 10px;
+            border: 1px solid #e2e8f0;
+            vertical-align: top;
+            line-height: 1.4;
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #f8fafc;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        .patient-name {
+            font-weight: bold;
+            color: #1e293b;
+            font-size: 15px;
+            display: block;
+        }
+
+        .sub-text {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        code {
+            font-family: Consolas, monospace;
+            font-size: 12px;
+            color: #334155;
+            background-color: #f1f5f9;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        .imss { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .issste { background-color: #ffedd5; color: #9a3412; border: 1px solid #fed7aa; }
+        .privado { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+
+        .alergia-alert {
+            color: #b91c1c;
+            background-color: #fee2e2;
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 4px;
+            border: 1px solid #fecaca;
+            display: inline-block;
+        }
+
+        .alergia-none {
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        .bullet-list {
+            margin: 0;
+            padding-left: 15px;
+            color: #334155;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>Control Clínico de Pacientes</h1>
+        <div class="meta-info">Base de Datos Generalizada • Registro Técnico Interno</div>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 18%;">Paciente</th>
+                    <th style="width: 17%;">Identificación</th>
+                    <th style="width: 15%;">Datos Clínicos Base</th>
+                    <th style="width: 18%;">Diagnóstico y Cuadro Actual</th>
+                    <th style="width: 17%;">Historial Clínico</th>
+                    <th style="width: 15%;">Seguro y Atención</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="patient-name">Juan Pérez</span>
+                        <span class="sub-text">Masculino • 34 años<br>Est. Civil: Soltero</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>PJJP017272F</code><br>
+                        <span class="sub-text">CURP:</span> <code>PJJP0120591HDFNRS09</code>
+                    </td>
+                    <td>
+                        <span class="sub-text">Sangre:</span> <strong>O+</strong><br>
+                        <span class="sub-text">Tel:</span> 551234567<br>
+                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Penicilina</span>
+                    </td>
+                    <td>
+                        <strong>Hipertensión</strong><br>
+                        <span class="sub-text">Sinto:</span> Dolor de cabeza frecuente<br>
+                        <span class="sub-text">Lesión:</span> Sin lesiones actuales
+                    </td>
+                    <td>
+                        <ul class="bullet-list">
+                            <li>Gripa común tratada con paracetamol.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="badge imss">IMSS</span><br>
+                        <span class="sub-text">Póliza:</span> 7878918<br>
+                        <span class="sub-text">Tipo:</span> Consulta general<br>
+                        <span class="sub-text">Reg:</span> 12/01/24
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Maria Lopez</span>
+                        <span class="sub-text">Femenino • 28 años<br>Est. Civil: Casada</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>LMHA722772A</code><br>
+                        <span class="sub-text">CURP:</span> <code>LOMM9708020D7202</code>
+                    </td>
+                    <td>
+                        <span class="sub-text">Sangre:</span> <strong>A-</strong><br>
+                        <span class="sub-text">Tel:</span> 55234578<br>
+                        <span class="sub-text">Alergias:</span> <span class="alergia-none">Ninguna</span>
+                    </td>
+                    <td>
+                        <strong>Migraña</strong><br>
+                        <span class="sub-text">Sinto:</span> Dolor de cabeza frecuente<br>
+                        <span class="sub-text">Lesión:</span> Sin lesiones actuales
+                    </td>
+                    <td>
+                        <ul class="bullet-list">
+                            <li>Cuadros de cefalea manejados con ibuprofeno.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="badge privado">Privado</span><br>
+                        <span class="sub-text">Póliza:</span> 7878918<br>
+                        <span class="sub-text">Tipo:</span> Consulta general<br>
+                        <span class="sub-text">Reg:</span> 15/01/25
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Carlos Méndez Ruiz</span>
+                        <span class="sub-text">Masculino • 24 años<br>Est. Civil: Soltero</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>MERC850101AB1</code><br>
+                        <span class="sub-text">CURP:</span> <code>MERC010314HDFNRS09</code>
+                    </td>
+                    <td>
+                        <span class="sub-text">Sangre:</span> <strong>O+</strong><br>
+                        <span class="sub-text">Tel:</span> 5512346789<br>
+                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Penicilina</span>
+                    </td>
+                    <td>
+                        <strong>Hipertensión leve</strong><br>
+                        <span class="sub-text">Sinto:</span> Dolor de cabeza frecuente<br>
+                        <span class="sub-text">Lesión:</span> Sin lesiones actuales
+                    </td>
+                    <td>
+                        <ul class="bullet-list">
+                            <li>Sobrepeso desde el año 2022.</li>
+                            <li>Presión arterial elevada en revisiones previas.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="badge imss">IMSS</span><br>
+                        <span class="sub-text">Póliza:</span> 78451236<br>
+                        <span class="sub-text">Tipo:</span> Consulta general<br>
+                        <span class="sub-text">Reg:</span> 15/01/2025
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Fernanda López Díaz</span>
+                        <span class="sub-text">Femenino • 26 años<br>Est. Civil: Soltera</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>LODF920215CD2</code><br>
+                        <span class="sub-text">CURP:</span> <code>LODF991122MDFPRN05</code>
+                    </td>
+                    <td>
+                        <span class="sub-text">Sangre:</span> <strong>A-</strong><br>
+                        <span class="sub-text">Tel:</span> 5523457890<br>
+                        <span class="sub-text">Alergias:</span> <span class="alergia-none">Ninguna</span>
+                    </td>
+                    <td>
+                        <strong>Anemia</strong><br>
+                        <span class="sub-text">Sinto:</span> Cansancio y mareos<br>
+                        <span class="sub-text">Lesión:</span> Hematomas leves en extremidades inferiores
+                    </td>
+                    <td>
+                        <ul class="bullet-list">
+                            <li>Crisis recurrentes de anemia (2021 y 2023).</li>
+                            <li>Tratamiento de suplementación con hierro.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="badge issste">ISSSTE</span><br>
+                        <span class="sub-text">Póliza:</span> 45879632<br>
+                        <span class="sub-text">Tipo:</span> Hematología<br>
+                        <span class="sub-text">Reg:</span> 10/02/2025
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Jorge Ramírez Soto</span>
+                        <span class="sub-text">Masculino • 37 años<br>Est. Civil: Casado</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>RASJ880430EF3</code><br>
+                        <span class="sub-text">CURP:</span> <code>RASJ880709HDFMTR03</code>
+                    </td>
+                    <td>
+                        <span class="sub-text">Sangre:</span> <strong>B+</strong><br>
+                        <span class="sub-text">Tel:</span> 5534568901<br>
+                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Sulfas</span>
+                    </td>
+                    <td>
+                        <strong>Diabetes tipo 2</strong><br>
+                        <span class="sub-text">Sinto:</span> Glucosa elevada<br>
+                        <span class="sub-text">Lesión:</span> Úlcera controlada en pie derecho
+                    </td>
+                    <td>
+                        <ul class="bullet-list">
+                            <li>Diagnóstico inicial establecido en 2020.</li>
+                            <li>Bajo régimen de metformina.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="badge imss">IMSS</span><br>
+                        <span class="sub-text">Póliza:</span> 96325874<br>
+                        <span class="sub-text">Tipo:</span> Control metabólico<br>
+                        <span class="sub-text">Reg:</span> 28/01/2025
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Daniela Torres Vega</span>
+                        <span class="sub-text">Femenino • 23 años<br>Est. Civil: Soltera</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>TOVD990120GH4</code><br>
+                        <span class="sub-text">CURP:</span> <code>TOVD030130MDFRNG07</code>
+                    </td>
+                    <td>
+                        <span class="sub-text">Sangre:</span> <strong>O-</strong><br>
+                        <span class="sub-text">Tel:</span> 5545679012<br>
+                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Aspirina</span>
+                    </td>
+                    <td>
+                        <strong>Gastritis crónica</strong><br>
+                        <span class="sub-text">Sinto:</span> Dolor abdominal<br>
+                        <span class="sub-text">Lesión:</span> Sin lesiones físicas
+                    </td>
+                    <td>
+                        <ul class="bullet-list">
+                            <li>Episodios agudos y recurrentes desde 2021.</li>
+                            <li>Uso clínico de omeprazol.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="badge privado">Privado</span><br>
+                        <span class="sub-text">Póliza:</span> 11223344<br>
+                        <span class="sub-text">Tipo:</span> Gastroenterología<br>
+                        <span class="sub-text">Reg:</span> 05/02/2025
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Luis Herrera Campos</span>
+                        <span class="sub-text">Masculino • 30 años<br>Est. Civil: Casado</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>HECM870315IJ5</code><br>
+                        <span class="sub-text">CURP:</span> <code>HECL950518HDFRMS04</code>
+                    </td>
+                    <td>
+                        <span class="sub-text">Sangre:</span> <strong>AB+</strong><br>
+                        <span class="sub-text">Tel:</span> 5556780123<br>
+                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Polvo</span>
+                    </td>
+                    <td>
+                        <strong>Asma</strong><br>
+                        <span class="sub-text">Sinto:</span> Dificultad respiratoria<br>
+                        <span class="sub-text">Lesión:</span> Inflamación leve en vías aéreas
+                    </td>
+                    <td>
+                        <ul class="bullet-list">
+                            <li>Crisis recurrentes presentes desde la infancia.</li>
+                            <li>Tratado mediante uso de inhalador.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="badge imss">IMSS</span><br>
+                        <span class="sub-text">Póliza:</span> 55667788<br>
+                        <span class="sub-text">Tipo:</span> Neumología<br>
+                        <span class="sub-text">Reg:</span> 20/01/2025
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Mariana Cruz León</span>
+                        <span class="sub-text">Femenino • 23 años<br>Est. Civil: Soltera</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>CRLM910808KL6</code><br>
+                        <span class="sub-text">CURP:</span> <code>CULM020927MDFRNR08</code>
+                    </td>
+                    <td>
+                        <span class="sub-text">Sangre:</span> <strong>A+</strong><br>
+                        <span class="sub-text">Tel:</span> 5567891234<br>
+                        <span class="sub-text">Alergias:</span> <span class="alergia-none">Ninguna</span>
+                    </td>
+                    <td>
+                        <strong>Migraña</strong><br>
+                        <span class="sub-text">Sinto:</span> Dolor de cabeza de intensidad alta<br>
+                        <span class="sub-text">Lesión:</span> Contractura muscular en cuello
+                    </td>
+                    <td>
+                        <ul class="bullet-list">
+                            <li>Migrañas frecuentes con inicio desde los 15 años.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="badge privado">Privado</span><br>
+                        <span class="sub-text">Póliza:</span> 99887766<br>
+                        <span class="sub-text">Tipo:</span> Neurología<br>
+                        <span class="sub-text">Reg:</span> 12/02/2025
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Ricardo Navarro Gil</span>
+                        <span class="sub-text">Masculino • 40 años<br>Est. Civil: Divorciado</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>NAGR860422MN7</code><br>
+                        <span class="sub-text">CURP:</span> <code>NAGR851203HDFRCL02</code>
+                    </td>
+                    <td>
+                        <span class="sub-text">Sangre:</span> <strong>B-</strong><br>
+                        <span class="sub-text">Tel:</span> 5578902345<br>
+                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Mariscos</span>
+                    </td>
+                    <td>
+                        <strong>Colesterol alto</strong><br>
+                        <span class="sub-text">Sinto:</span> Fatiga generalizada<br>
+                        <span class="sub-text">Lesión:</span> Molestia en rodilla derecha por artrosis
+                    </td>
+                    <td>
+                        <ul class="bullet-list">
+                            <li>Hiperlipidemia diagnosticada de origen en 2022.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="badge issste">ISSSTE</span><br>
+                        <span class="sub-text">Póliza:</span> 33445566<br>
+                        <span class="sub-text">Tipo:</span> Cardiología<br>
+                        <span class="sub-text">Reg:</span> 18/01/2025
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="patient-name">Sofía Morales Ríos</span>
+                        <span class="sub-text">Femenino • 21 años<br>Est. Civil: Soltera</span>
+                    </td>
+                    <td>
+                        <span class="sub-text">RFC:</span> <code>MORR930712OP8</code><br>
+                        <span class="sub-text">CURP:</span> <code>MORS040611MDFRFS06</code>
+                    </td>
+                    <td>
+                        <span class="sub-text">Sangre:</span> <strong>O+</strong><br>
+                        <span class="sub-text">Tel:</span> 5589013456<br>
+                        <span class="sub-text">Alergias:</span> <span class="alergia-none">Ninguna</span>
+                    </td>
+                    <td>
+                        <strong>Infección urinaria</strong><br>
+                        <span class="sub-text">Sinto:</span> Disuria (ardor al orinar)<br>
+                        <span class="sub-text">Lesión:</span> Irritación en conductos urinarios
+                    </td>
+                    <td>
+                        <ul class="bullet-list">
+                            <li>Primer evento clínico reportado para esta patología.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="badge imss">IMSS</span><br>
+                        <span class="sub-text">Póliza:</span> 77889900<br>
+                        <span class="sub-text">Tipo:</span> Medicina general<br>
+                        <span class="sub-text">Reg:</span> 14/02/2025
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
