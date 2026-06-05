@@ -1,450 +1,276 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plantilla de Personal Médico</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <title>Plantilla Médica</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7fafc; color: #2d3748; font-size: 14px; }
 
-        body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            margin: 30px;
-            color: #2d3748;
-            background-color: #f7fafc;
-            font-size: 14px;
-        }
+    .nav { background: #2b6cb0; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .nav h1 { color: #fff; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+    .nav-btns { display: flex; gap: 10px; }
+    .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; transition: .2s; }
+    .btn-primary { background: #3182ce; color: #fff; }
+    .btn-primary:hover { background: #2c5282; }
+    .btn-success { background: #27ae60; color: #fff; }
+    .btn-success:hover { background: #1e8449; }
+    .btn-danger { background: #e74c3c; color: #fff; }
+    .btn-danger:hover { background: #c0392b; }
+    .btn-warning { background: #f39c12; color: #fff; }
+    .btn-warning:hover { background: #d68910; }
+    .btn-admin { background: #8e44ad; color: #fff; }
+    .btn-admin:hover { background: #6c3483; }
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
 
-        .header-container {
-            border-bottom: 3px solid #3182ce;
-            padding-bottom: 12px;
-            margin-bottom: 25px;
-        }
+    .container { padding: 24px; max-width: 1400px; margin: 0 auto; }
 
-        h1 {
-            color: #2c5282;
-            margin: 0 0 4px 0;
-            font-size: 26px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
+    .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.08); margin-bottom: 24px; overflow: hidden; }
+    .card-header { background: #2b6cb0; color: #fff; padding: 14px 20px; font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .card-body { padding: 20px; display: none; }
+    .card-body.open { display: block; }
 
-        .meta-info {
-            font-size: 14px;
-            color: #718096;
-        }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label { font-size: 12px; font-weight: 600; color: #555; text-transform: uppercase; }
+    .form-group input, .form-group select { padding: 9px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; outline: none; transition: .2s; }
+    .form-group input:focus, .form-group select:focus { border-color: #2b6cb0; box-shadow: 0 0 0 2px rgba(43,108,176,.1); }
+    .form-actions { margin-top: 16px; display: flex; gap: 10px; }
 
-        .tabla-contenedor {
-            overflow-x: auto;
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 1px solid #e2e8f0;
-        }
+    .tabla-contenedor { overflow-x: auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #2b6cb0; color: #fff; padding: 12px 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
+    td { padding: 11px 10px; border-bottom: 1px solid #e2e8f0; vertical-align: top; font-size: 13px; }
+    tbody tr:nth-child(even) { background: #f8fafc; }
+    tbody tr:hover { background: #edf2f7; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
+    .badge-turno { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    .matutino { background: #e6fffa; color: #234e52; border: 1px solid #b2f5ea; }
+    .vespertino { background: #fffaf0; color: #7b341e; border: 1px solid #feebc8; }
+    .mixto { background: #f7fafc; color: #4a5568; border: 1px solid #e2e8f0; }
+    .status-activo { color: #22543d; background: #c6f6d5; font-weight: 700; padding: 3px 8px; border-radius: 4px; border: 1px solid #9ae6b4; font-size: 11px; text-transform: uppercase; }
+    .doctor-name { font-weight: 700; color: #1a365d; }
+    .specialty { font-weight: 700; color: #2b6cb0; }
+    .sub-text { color: #718096; font-size: 11px; }
 
-        th {
-            background-color: #2b6cb0;
-            color: #ffffff;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-            padding: 14px 12px;
-        }
-
-        td {
-            padding: 14px 12px;
-            border-bottom: 1px solid #e2e8f0;
-            vertical-align: top;
-            line-height: 1.4;
-        }
-
-        tbody tr:nth-of-type(even) {
-            background-color: #f8fafc;
-        }
-
-        tbody tr:hover {
-            background-color: #edf2f7;
-            transition: background-color 0.2s ease;
-        }
-
-        .doctor-name {
-            font-weight: 700;
-            color: #1a365d;
-            font-size: 15px;
-            display: block;
-        }
-
-        .sub-text {
-            color: #718096;
-            font-size: 12px;
-        }
-
-        .specialty {
-            font-weight: 700;
-            color: #2b6cb0;
-        }
-
-        .subspecialty {
-            font-size: 12px;
-            font-style: italic;
-            color: #4a5568;
-            margin-bottom: 2px;
-        }
-
-        code {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 12px;
-            color: #2d3748;
-            background-color: #edf2f7;
-            padding: 2px 5px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 3px;
-            letter-spacing: 0.3px;
-        }
-
-        .badge-turno {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
-            margin-top: 5px;
-            text-transform: uppercase;
-        }
-
-        .matutino { background-color: #e6fffa; color: #234e52; border: 1px solid #b2f5ea; }
-        .vespertino { background-color: #fffaf0; color: #7b341e; border: 1px solid #feebc8; }
-        .mixto { background-color: #f7fafc; color: #4a5568; border: 1px solid #e2e8f0; }
-
-        .status-activo {
-            color: #22543d;
-            background-color: #c6f6d5;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 4px;
-            border: 1px solid #9ae6b4;
-            display: inline-block;
-            font-size: 11px;
-            text-transform: uppercase;
-        }
-    </style>
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 12px; padding: 28px; width: 440px; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+    .modal h3 { margin-bottom: 16px; color: #2b6cb0; }
+    .modal input, .modal select { width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; margin-bottom: 12px; outline: none; }
+    .modal-actions { display: flex; gap: 10px; }
+    .admin-bar { display: none; background: #8e44ad; color: #fff; padding: 8px 24px; font-size: 13px; align-items: center; gap: 12px; }
+    .admin-bar.visible { display: flex; }
+    .section-title { font-size: 16px; font-weight: 700; color: #2b6cb0; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .count-badge { background: #2b6cb0; color: #fff; border-radius: 20px; padding: 2px 10px; font-size: 12px; }
+    .empty-state { text-align: center; padding: 40px; color: #94a3b8; font-style: italic; }
+    .action-btns { display: flex; gap: 6px; }
+    code { font-family: monospace; font-size: 12px; color: #2d3748; background: #edf2f7; padding: 2px 5px; border-radius: 4px; }
+  </style>
 </head>
 <body>
 
-    <div class="header-container">
-        <h1>Control de Plantilla Médica</h1>
-        <div class="meta-info">Registro Interno de Especialistas • Directorio Corporativo Activo</div>
-    </div>
+<div class="nav">
+  <h1>👨‍⚕️ Plantilla Médica</h1>
+  <div class="nav-btns">
+    <button class="btn btn-primary" onclick="toggleForm()">+ Agregar Médico</button>
+    <button class="btn btn-admin" onclick="openAdminModal()">🔐 Admin</button>
+  </div>
+</div>
 
-    <div class="tabla-contenedor">
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 18%;">Médico Especialista</th>
-                    <th style="width: 22%;">Especialidad e Historial</th>
-                    <th style="width: 22%;">Identificaciones Oficiales</th>
-                    <th style="width: 13%;">Horario y Turno</th>
-                    <th style="width: 15%;">Consultorio y Contacto</th>
-                    <th style="width: 10%; text-align: center;">Estatus Laboral</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <span class="doctor-name">Dr. Carlos Ramírez</span>
-                        <span class="sub-text">Edad: 48 años</span>
-                    </td>
-                    <td>
-                        <div class="specialty">Cardiología</div>
-                        <span class="sub-text">Cédula:</span> 7844561<br>
-                        <span class="sub-text">Experiencia:</span> 12 años
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>RRC9192937U</code><br>
-                        <span class="sub-text">CURP:</span> <code>RRC919297373T73R</code>
-                    </td>
-                    <td>
-                        <strong>Lun-Mie</strong><br>
-                        <span class="sub-text">9:00 - 15:00</span><br>
-                        <span class="badge-turno matutino">Matutino</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">Tel:</span> 55111123<br>
-                        <span class="sub-text">Ubicación:</span> Av basanopa 2727
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="status-activo">Activo</span><br>
-                        <span class="sub-text">Contratación:<br>10/03/2018</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="doctor-name">Dr. Ana Torres</span>
-                        <span class="sub-text">Edad: 35 años</span>
-                    </td>
-                    <td>
-                        <div class="specialty">Pediatría</div>
-                        <span class="sub-text">Cédula:</span> 4561237<br>
-                        <span class="sub-text">Experiencia:</span> 8 años
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>TTA850197GA62</code><br>
-                        <span class="sub-text">CURP:</span> <code>TTA85072RRR71789</code>
-                    </td>
-                    <td>
-                        <strong>Mar-Jue</strong><br>
-                        <span class="sub-text">10:00 - 16:00</span><br>
-                        <span class="badge-turno matutino">Matutino</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">Tel:</span> 55111123<br>
-                        <span class="sub-text">Ubicación:</span> Av torres 2727
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="status-activo">Activo</span><br>
-                        <span class="sub-text">Contratación:<br>11/07/2020</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="doctor-name">Dr. Alejandro Pineda Ruiz</span>
-                        <span class="sub-text">Edad: 45 años</span>
-                    </td>
-                    <td>
-                        <div class="specialty">Cardiología</div>
-                        <span class="sub-text">Cédula:</span> 5678901<br>
-                        <span class="sub-text">Experiencia:</span> 15 años
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>PIRR800215AB1</code><br>
-                        <span class="sub-text">CURP:</span> <code>PIRA800215HDFNLA01</code>
-                    </td>
-                    <td>
-                        <strong>Lun-Vie</strong><br>
-                        <span class="sub-text">8:00 - 14:00</span><br>
-                        <span class="badge-turno matutino">Matutino</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">Tel:</span> 5511122233<br>
-                        <span class="sub-text">Ubicación:</span> Av. Insurgentes Sur 1234, Col. Del Valle, CDMX
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="status-activo">Activo</span><br>
-                        <span class="sub-text">Contratación:<br>12/03/2015</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="doctor-name">Dra. Paola Martínez Cruz</span>
-                        <span class="sub-text">Edad: 38 años</span>
-                    </td>
-                    <td>
-                        <div class="specialty">Pediatría</div>
-                        <div class="subspecialty">Sub: Neonatología</div>
-                        <span class="sub-text">Cédula:</span> 6789012<br>
-                        <span class="sub-text">Experiencia:</span> 12 años
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>MACP850430CD2</code><br>
-                        <span class="sub-text">CURP:</span> <code>MACP850430MDFTRL02</code>
-                    </td>
-                    <td>
-                        <strong>Lun-Vie</strong><br>
-                        <span class="sub-text">14:00 - 20:00</span><br>
-                        <span class="badge-turno vespertino">Vespertino</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">Tel:</span> 5522233344<br>
-                        <span class="sub-text">Ubicación:</span> Calz. de Tlalpan 456, Col. Portales, CDMX
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="status-activo">Activo</span><br>
-                        <span class="sub-text">Contratación:<br>21/07/2018</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="doctor-name">Dr. Sergio Castillo Mora</span>
-                        <span class="sub-text">Edad: 50 años</span>
-                    </td>
-                    <td>
-                        <div class="specialty">Traumatología</div>
-                        <div class="subspecialty">Sub: Ortopedia Deportiva</div>
-                        <span class="sub-text">Cédula:</span> 7890123<br>
-                        <span class="sub-text">Experiencia:</span> 20 años
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>CAMS780912EF3</code><br>
-                        <span class="sub-text">CURP:</span> <code>CAMS780912HDFSLR03</code>
-                    </td>
-                    <td>
-                        <strong>Lun-Sáb</strong><br>
-                        <span class="sub-text">9:00 - 15:00</span><br>
-                        <span class="badge-turno matutino">Matutino</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">Tel:</span> 5533344455<br>
-                        <span class="sub-text">Ubicación:</span> Av. Universidad 890, Col. Copilco, CDMX
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="status-activo">Activo</span><br>
-                        <span class="sub-text">Contratación:<br>15/01/2010</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="doctor-name">Dra. Karla Jiménez Soto</span>
-                        <span class="sub-text">Edad: 34 años</span>
-                    </td>
-                    <td>
-                        <div class="specialty">Dermatología</div>
-                        <span class="sub-text">Cédula:</span> 8901234<br>
-                        <span class="sub-text">Experiencia:</span> 9 años
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>JISK900101GH4</code><br>
-                        <span class="sub-text">CURP:</span> <code>JISK900101MDFMTR04</code>
-                    </td>
-                    <td>
-                        <strong>Lun-Vie</strong><br>
-                        <span class="sub-text">13:00 - 19:00</span><br>
-                        <span class="badge-turno vespertino">Vespertino</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">Tel:</span> 5544455566<br>
-                        <span class="sub-text">Ubicación:</span> Eje 6 Sur 321, Col. Narvarte, CDMX
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="status-activo">Activo</span><br>
-                        <span class="sub-text">Contratación:<br>10/09/2019</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="doctor-name">Dr. Miguel Ángel Ríos</span>
-                        <span class="sub-text">Edad: 42 años</span>
-                    </td>
-                    <td>
-                        <div class="specialty">Neurología</div>
-                        <span class="sub-text">Cédula:</span> 9012345<br>
-                        <span class="sub-text">Experiencia:</span> 14 años
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>RIMM820623IJ5</code><br>
-                        <span class="sub-text">CURP:</span> <code>RIMM820623HDFGLG05</code>
-                    </td>
-                    <td>
-                        <strong>Lun-Vie</strong><br>
-                        <span class="sub-text">10:00 - 18:00</span><br>
-                        <span class="badge-turno mixto">Mixto</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">Tel:</span> 5555566677<br>
-                        <span class="sub-text">Ubicación:</span> Av. Revolución 654, Col. San Ángel, CDMX
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="status-activo">Activo</span><br>
-                        <span class="sub-text">Contratación:<br>05/04/2016</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="doctor-name">Dra. Laura Hernández Gil</span>
-                        <span class="sub-text">Edad: 39 años</span>
-                    </td>
-                    <td>
-                        <div class="specialty">Ginecología</div>
-                        <span class="sub-text">Cédula:</span> 1122334<br>
-                        <span class="sub-text">Experiencia:</span> 13 años
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>HEGL870315UV6</code><br>
-                        <span class="sub-text">CURP:</span> <code>HEGL870315MDFRRL06</code>
-                    </td>
-                    <td>
-                        <strong>Lun-Vie</strong><br>
-                        <span class="sub-text">8:00 - 14:00</span><br>
-                        <span class="badge-turno matutino">Matutino</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">Tel:</span> 5566677788<br>
-                        <span class="sub-text">Ubicación:</span> Periférico Sur 1500, Col. Jardines del Pedregal, CDMX
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="status-activo">Activo</span><br>
-                        <span class="sub-text">Contratación:<br>18/06/2017</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="doctor-name">Dr. Andrés Navarro León</span>
-                        <span class="sub-text">Edad: 47 años</span>
-                    </td>
-                    <td>
-                        <div class="specialty">Medicina Interna</div>
-                        <span class="sub-text">Cédula:</span> 2233445<br>
-                        <span class="sub-text">Experiencia:</span> 18 años
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>NALA830422WX7</code><br>
-                        <span class="sub-text">CURP:</span> <code>NALA830422HDFVNR07</code>
-                    </td>
-                    <td>
-                        <strong>Lun-Vie</strong><br>
-                        <span class="sub-text">15:00 - 21:00</span><br>
-                        <span class="badge-turno vespertino">Vespertino</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">Tel:</span> 5577788899<br>
-                        <span class="sub-text">Ubicación:</span> Av. Patriotismo 742, Col. Escandón, CDMX
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="status-activo">Activo</span><br>
-                        <span class="sub-text">Contratación:<br>03/11/2012</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="doctor-name">Dra. Sofía Cabrera Torres</span>
-                        <span class="sub-text">Edad: 36 años</span>
-                    </td>
-                    <td>
-                        <div class="specialty">Oftalmología</div>
-                        <span class="sub-text">Cédula:</span> 3344556<br>
-                        <span class="sub-text">Experiencia:</span> 11 años
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>CATSO920712YZ8</code><br>
-                        <span class="sub-text">CURP:</span> <code>CATSO920712MDFBRF08</code>
-                    </td>
-                    <td>
-                        <strong>Lun-Vie</strong><br>
-                        <span class="sub-text">9:00 - 15:00</span><br>
-                        <span class="badge-turno matutino">Matutino</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">Tel:</span> 5588899900<br>
-                        <span class="sub-text">Ubicación:</span> Av. Coyoacán 1010, Col. Del Valle, CDMX
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="status-activo">Activo</span><br>
-                        <span class="sub-text">Contratación:<br>14/02/2020</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="admin-bar" id="adminBar">
+  <span>✅ Modo Admin Activo</span>
+  <button class="btn btn-danger btn-sm" onclick="logoutAdmin()">Cerrar sesión</button>
+</div>
 
+<div class="container">
+
+  <div class="card">
+    <div class="card-header" onclick="toggleForm()">
+      <span>📋 Nuevo Médico</span><span id="formArrow">▼</span>
+    </div>
+    <div class="card-body" id="formBody">
+      <div class="form-grid">
+        <div class="form-group"><label>Nombre completo *</label><input id="f_nombre" placeholder="Dr. Juan Pérez"></div>
+        <div class="form-group"><label>Edad</label><input id="f_edad" type="number" placeholder="40"></div>
+        <div class="form-group"><label>Especialidad</label>
+          <select id="f_especialidad">
+            <option>Cardiología</option><option>Pediatría</option><option>Traumatología</option>
+            <option>Dermatología</option><option>Neurología</option><option>Ginecología</option>
+            <option>Medicina Interna</option><option>Oftalmología</option><option>Cirugía General</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Subespecialidad</label><input id="f_subespecialidad" placeholder="Neonatología (opcional)"></div>
+        <div class="form-group"><label>Cédula Profesional</label><input id="f_cedula" placeholder="7844561"></div>
+        <div class="form-group"><label>Años de Experiencia</label><input id="f_experiencia" type="number" placeholder="10"></div>
+        <div class="form-group"><label>RFC</label><input id="f_rfc" placeholder="RARJ801010AB1"></div>
+        <div class="form-group"><label>CURP</label><input id="f_curp" placeholder="RARJ801010HDFRMS01"></div>
+        <div class="form-group"><label>Días de Atención</label><input id="f_horario" placeholder="Lun-Vie"></div>
+        <div class="form-group"><label>Turno</label>
+          <select id="f_turno"><option>Matutino</option><option>Vespertino</option><option>Mixto</option></select>
+        </div>
+        <div class="form-group"><label>Teléfono</label><input id="f_telefono" placeholder="5512345678"></div>
+        <div class="form-group"><label>Ubicación / Consultorio</label><input id="f_ubicacion" placeholder="Av. Reforma 123, CDMX"></div>
+        <div class="form-group"><label>Fecha de Contratación</label><input id="f_fechaContratacion" type="date"></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-success" onclick="guardar()">💾 Guardar</button>
+        <button class="btn btn-warning" onclick="cancelarForm()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    Médicos Registrados <span class="count-badge" id="conteo">0</span>
+  </div>
+  <div class="tabla-contenedor">
+    <table>
+      <thead>
+        <tr>
+          <th>Médico Especialista</th>
+          <th>Especialidad</th>
+          <th>Identificaciones</th>
+          <th>Horario y Turno</th>
+          <th>Contacto</th>
+          <th>Estatus</th>
+          <th id="col-acciones" style="display:none">Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tablaMedicos">
+        <tr><td colspan="7" class="empty-state">Cargando...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL ADMIN -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal">
+    <h3>🔐 Acceso Administrador</h3>
+    <input type="password" id="adminPass" placeholder="Contraseña" onkeydown="if(event.key==='Enter')loginAdmin()">
+    <div id="adminError" style="color:#e74c3c;font-size:12px;margin-bottom:10px;display:none">Contraseña incorrecta</div>
+    <div class="modal-actions">
+      <button class="btn btn-admin" onclick="loginAdmin()">Ingresar</button>
+      <button class="btn" style="background:#eee" onclick="closeAdminModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDICIÓN -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>✏️ Editar Médico</h3>
+    <input type="hidden" id="e_id">
+    <label style="font-size:12px;font-weight:600;color:#555">NOMBRE</label>
+    <input id="e_nombre">
+    <label style="font-size:12px;font-weight:600;color:#555">ESPECIALIDAD</label>
+    <select id="e_especialidad">
+      <option>Cardiología</option><option>Pediatría</option><option>Traumatología</option>
+      <option>Dermatología</option><option>Neurología</option><option>Ginecología</option>
+      <option>Medicina Interna</option><option>Oftalmología</option><option>Cirugía General</option>
+    </select>
+    <label style="font-size:12px;font-weight:600;color:#555">TURNO</label>
+    <select id="e_turno"><option>Matutino</option><option>Vespertino</option><option>Mixto</option></select>
+    <label style="font-size:12px;font-weight:600;color:#555">TELÉFONO</label>
+    <input id="e_telefono">
+    <label style="font-size:12px;font-weight:600;color:#555">UBICACIÓN</label>
+    <input id="e_ubicacion">
+    <div class="modal-actions">
+      <button class="btn btn-success" onclick="actualizar()">💾 Guardar</button>
+      <button class="btn" style="background:#eee" onclick="closeEditModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API = '/api/medicos';
+  let isAdmin = false;
+  let data = [];
+
+  async function cargar() {
+    try { const r = await fetch(API); data = await r.json(); renderTabla(data); } catch { renderTabla([]); }
+  }
+
+  function renderTabla(items) {
+    const tbody = document.getElementById('tablaMedicos');
+    document.getElementById('conteo').textContent = items.length;
+    document.getElementById('col-acciones').style.display = isAdmin ? '' : 'none';
+    if (!items.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No hay médicos registrados.</td></tr>'; return; }
+    tbody.innerHTML = items.map(m => `
+      <tr>
+        <td><div class="doctor-name">${m.nombre}</div><div class="sub-text">Edad: ${m.edad || '-'} años</div></td>
+        <td><div class="specialty">${m.especialidad || '-'}</div>
+          ${m.subespecialidad ? `<div class="sub-text" style="font-style:italic">Sub: ${m.subespecialidad}</div>` : ''}
+          <div class="sub-text">Cédula: ${m.cedula || '-'}</div>
+          <div class="sub-text">Exp: ${m.experiencia || '-'} años</div>
+        </td>
+        <td><div class="sub-text">RFC: <code>${m.rfc || '-'}</code></div><div class="sub-text">CURP: <code>${m.curp || '-'}</code></div></td>
+        <td><strong>${m.horario || '-'}</strong><br><span class="badge-turno ${(m.turno||'').toLowerCase()}">${m.turno || '-'}</span></td>
+        <td><div class="sub-text">Tel: ${m.telefono || '-'}</div><div class="sub-text" style="font-size:11px">${m.ubicacion || '-'}</div></td>
+        <td><span class="status-activo">Activo</span><div class="sub-text">Contrat: ${m.fechaContratacion || '-'}</div></td>
+        ${isAdmin ? `<td><div class="action-btns">
+          <button class="btn btn-warning btn-sm" onclick="abrirEditar('${m._id}')">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="eliminar('${m._id}')">🗑️</button>
+        </div></td>` : '<td style="display:none"></td>'}
+      </tr>
+    `).join('');
+  }
+
+  async function guardar() {
+    const nombre = document.getElementById('f_nombre').value.trim();
+    if (!nombre) { alert('El nombre es obligatorio'); return; }
+    const body = { nombre, edad: document.getElementById('f_edad').value, especialidad: document.getElementById('f_especialidad').value,
+      subespecialidad: document.getElementById('f_subespecialidad').value, cedula: document.getElementById('f_cedula').value,
+      experiencia: document.getElementById('f_experiencia').value, rfc: document.getElementById('f_rfc').value,
+      curp: document.getElementById('f_curp').value, horario: document.getElementById('f_horario').value,
+      turno: document.getElementById('f_turno').value, telefono: document.getElementById('f_telefono').value,
+      ubicacion: document.getElementById('f_ubicacion').value, fechaContratacion: document.getElementById('f_fechaContratacion').value };
+    await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    cancelarForm(); cargar();
+  }
+
+  function abrirEditar(id) {
+    const m = data.find(x => x._id === id); if (!m) return;
+    document.getElementById('e_id').value = m._id;
+    document.getElementById('e_nombre').value = m.nombre || '';
+    document.getElementById('e_especialidad').value = m.especialidad || 'Cardiología';
+    document.getElementById('e_turno').value = m.turno || 'Matutino';
+    document.getElementById('e_telefono').value = m.telefono || '';
+    document.getElementById('e_ubicacion').value = m.ubicacion || '';
+    document.getElementById('editModal').classList.add('open');
+  }
+
+  async function actualizar() {
+    const id = document.getElementById('e_id').value;
+    const body = { nombre: document.getElementById('e_nombre').value, especialidad: document.getElementById('e_especialidad').value,
+      turno: document.getElementById('e_turno').value, telefono: document.getElementById('e_telefono').value,
+      ubicacion: document.getElementById('e_ubicacion').value };
+    await fetch(`${API}/${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    closeEditModal(); cargar();
+  }
+
+  async function eliminar(id) {
+    if (!confirm('¿Eliminar este médico?')) return;
+    await fetch(`${API}/${id}`, { method:'DELETE' }); cargar();
+  }
+
+  function toggleForm() { document.getElementById('formBody').classList.toggle('open'); document.getElementById('formArrow').textContent = document.getElementById('formBody').classList.contains('open') ? '▲' : '▼'; }
+  function cancelarForm() { document.getElementById('formBody').classList.remove('open'); document.getElementById('formArrow').textContent = '▼'; }
+  function closeEditModal() { document.getElementById('editModal').classList.remove('open'); }
+  function openAdminModal() { document.getElementById('adminModal').classList.add('open'); document.getElementById('adminPass').value=''; document.getElementById('adminError').style.display='none'; }
+  function closeAdminModal() { document.getElementById('adminModal').classList.remove('open'); }
+
+  async function loginAdmin() {
+    const pass = document.getElementById('adminPass').value;
+    const res = await fetch('/api/admin/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password: pass}) });
+    const d = await res.json();
+    if (d.success) { isAdmin = true; closeAdminModal(); document.getElementById('adminBar').classList.add('visible'); renderTabla(data); }
+    else { document.getElementById('adminError').style.display = 'block'; }
+  }
+
+  function logoutAdmin() { isAdmin = false; document.getElementById('adminBar').classList.remove('visible'); renderTabla(data); }
+
+  cargar();
+</script>
 </body>
 </html>
