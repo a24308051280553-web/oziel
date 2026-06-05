@@ -1,472 +1,337 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Registro Clínico de Pacientes</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <title>Registro Clínico de Pacientes</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8fafc; color: #2c3e50; font-size: 14px; }
 
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 20px;
-            color: #2c3e50;
-            background-color: #f8fafc;
-            font-size: 14px;
-        }
+    /* NAV */
+    .nav { background: #1a5276; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .nav h1 { color: #fff; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+    .nav-btns { display: flex; gap: 10px; }
+    .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; transition: .2s; }
+    .btn-primary { background: #2980b9; color: #fff; }
+    .btn-primary:hover { background: #1f6391; }
+    .btn-success { background: #27ae60; color: #fff; }
+    .btn-success:hover { background: #1e8449; }
+    .btn-danger { background: #e74c3c; color: #fff; }
+    .btn-danger:hover { background: #c0392b; }
+    .btn-warning { background: #f39c12; color: #fff; }
+    .btn-warning:hover { background: #d68910; }
+    .btn-admin { background: #8e44ad; color: #fff; }
+    .btn-admin:hover { background: #6c3483; }
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
 
-        .header-container {
-            border-bottom: 3px solid #1a5276;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
+    /* MAIN */
+    .container { padding: 24px; max-width: 1400px; margin: 0 auto; }
 
-        h1 {
-            color: #1a5276;
-            margin: 0 0 5px 0;
-            font-size: 24px;
-            text-transform: uppercase;
-        }
+    /* FORM CARD */
+    .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.08); margin-bottom: 24px; overflow: hidden; }
+    .card-header { background: #1a5276; color: #fff; padding: 14px 20px; font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .card-header span { font-size: 18px; }
+    .card-body { padding: 20px; display: none; }
+    .card-body.open { display: block; }
 
-        .meta-info {
-            font-size: 13px;
-            color: #7f8c8d;
-        }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label { font-size: 12px; font-weight: 600; color: #555; text-transform: uppercase; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; outline: none; transition: .2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #1a5276; box-shadow: 0 0 0 2px rgba(26,82,118,.1); }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-actions { margin-top: 16px; display: flex; gap: 10px; }
 
-        .tabla-contenedor {
-            overflow-x: auto;
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
+    /* TABLE */
+    .tabla-contenedor { overflow-x: auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #1a5276; color: #fff; padding: 12px 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; }
+    td { padding: 11px 10px; border-bottom: 1px solid #eee; vertical-align: top; font-size: 13px; }
+    tbody tr:nth-child(even) { background: #f8fafc; }
+    tbody tr:hover { background: #f1f5f9; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+    .imss { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .issste { background: #ffedd5; color: #9a3412; border: 1px solid #fed7aa; }
+    .privado { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .alergia-alert { color: #b91c1c; background: #fee2e2; padding: 2px 6px; border-radius: 4px; border: 1px solid #fecaca; font-weight: 700; }
+    .alergia-none { color: #94a3b8; font-style: italic; }
+    .patient-name { font-weight: 700; color: #1e293b; }
+    .sub-text { color: #64748b; font-size: 11px; }
 
-        th {
-            background-color: #1a5276;
-            color: #ffffff;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-            padding: 12px 10px;
-            border: 1px solid #1a5276;
-        }
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 12px; padding: 28px; width: 360px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+    .modal h3 { margin-bottom: 16px; color: #1a5276; }
+    .modal input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; margin-bottom: 14px; outline: none; }
+    .modal input:focus { border-color: #8e44ad; }
+    .modal-actions { display: flex; gap: 10px; }
+    .admin-bar { display: none; background: #8e44ad; color: #fff; padding: 8px 24px; font-size: 13px; align-items: center; gap: 12px; }
+    .admin-bar.visible { display: flex; }
 
-        td {
-            padding: 12px 10px;
-            border: 1px solid #e2e8f0;
-            vertical-align: top;
-            line-height: 1.4;
-        }
-
-        tbody tr:nth-of-type(even) {
-            background-color: #f8fafc;
-        }
-
-        tbody tr:hover {
-            background-color: #f1f5f9;
-        }
-
-        .patient-name {
-            font-weight: bold;
-            color: #1e293b;
-            font-size: 15px;
-            display: block;
-        }
-
-        .sub-text {
-            color: #64748b;
-            font-size: 12px;
-        }
-
-        code {
-            font-family: Consolas, monospace;
-            font-size: 12px;
-            color: #334155;
-            background-color: #f1f5f9;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: bold;
-            margin-top: 4px;
-        }
-
-        .imss { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-        .issste { background-color: #ffedd5; color: #9a3412; border: 1px solid #fed7aa; }
-        .privado { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
-
-        .alergia-alert {
-            color: #b91c1c;
-            background-color: #fee2e2;
-            font-weight: bold;
-            padding: 2px 5px;
-            border-radius: 4px;
-            border: 1px solid #fecaca;
-            display: inline-block;
-        }
-
-        .alergia-none {
-            color: #94a3b8;
-            font-style: italic;
-        }
-
-        .bullet-list {
-            margin: 0;
-            padding-left: 15px;
-            color: #334155;
-        }
-    </style>
+    .section-title { font-size: 16px; font-weight: 700; color: #1a5276; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .count-badge { background: #1a5276; color: #fff; border-radius: 20px; padding: 2px 10px; font-size: 12px; }
+    .empty-state { text-align: center; padding: 40px; color: #94a3b8; font-style: italic; }
+    .action-btns { display: flex; gap: 6px; }
+  </style>
 </head>
 <body>
 
-    <div class="header-container">
-        <h1>Control Clínico de Pacientes</h1>
-        <div class="meta-info">Base de Datos Generalizada • Registro Técnico Interno</div>
-    </div>
+<div class="nav">
+  <h1>🏥 Control Clínico de Pacientes</h1>
+  <div class="nav-btns">
+    <button class="btn btn-primary" onclick="toggleForm()">+ Agregar Paciente</button>
+    <button class="btn btn-admin" onclick="openAdminModal()">🔐 Admin</button>
+  </div>
+</div>
 
-    <div class="tabla-contenedor">
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 18%;">Paciente</th>
-                    <th style="width: 17%;">Identificación</th>
-                    <th style="width: 15%;">Datos Clínicos Base</th>
-                    <th style="width: 18%;">Diagnóstico y Cuadro Actual</th>
-                    <th style="width: 17%;">Historial Clínico</th>
-                    <th style="width: 15%;">Seguro y Atención</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <span class="patient-name">Juan Pérez</span>
-                        <span class="sub-text">Masculino • 34 años<br>Est. Civil: Soltero</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>PJJP017272F</code><br>
-                        <span class="sub-text">CURP:</span> <code>PJJP0120591HDFNRS09</code>
-                    </td>
-                    <td>
-                        <span class="sub-text">Sangre:</span> <strong>O+</strong><br>
-                        <span class="sub-text">Tel:</span> 551234567<br>
-                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Penicilina</span>
-                    </td>
-                    <td>
-                        <strong>Hipertensión</strong><br>
-                        <span class="sub-text">Sinto:</span> Dolor de cabeza frecuente<br>
-                        <span class="sub-text">Lesión:</span> Sin lesiones actuales
-                    </td>
-                    <td>
-                        <ul class="bullet-list">
-                            <li>Gripa común tratada con paracetamol.</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <span class="badge imss">IMSS</span><br>
-                        <span class="sub-text">Póliza:</span> 7878918<br>
-                        <span class="sub-text">Tipo:</span> Consulta general<br>
-                        <span class="sub-text">Reg:</span> 12/01/24
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Maria Lopez</span>
-                        <span class="sub-text">Femenino • 28 años<br>Est. Civil: Casada</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>LMHA722772A</code><br>
-                        <span class="sub-text">CURP:</span> <code>LOMM9708020D7202</code>
-                    </td>
-                    <td>
-                        <span class="sub-text">Sangre:</span> <strong>A-</strong><br>
-                        <span class="sub-text">Tel:</span> 55234578<br>
-                        <span class="sub-text">Alergias:</span> <span class="alergia-none">Ninguna</span>
-                    </td>
-                    <td>
-                        <strong>Migraña</strong><br>
-                        <span class="sub-text">Sinto:</span> Dolor de cabeza frecuente<br>
-                        <span class="sub-text">Lesión:</span> Sin lesiones actuales
-                    </td>
-                    <td>
-                        <ul class="bullet-list">
-                            <li>Cuadros de cefalea manejados con ibuprofeno.</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <span class="badge privado">Privado</span><br>
-                        <span class="sub-text">Póliza:</span> 7878918<br>
-                        <span class="sub-text">Tipo:</span> Consulta general<br>
-                        <span class="sub-text">Reg:</span> 15/01/25
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Carlos Méndez Ruiz</span>
-                        <span class="sub-text">Masculino • 24 años<br>Est. Civil: Soltero</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>MERC850101AB1</code><br>
-                        <span class="sub-text">CURP:</span> <code>MERC010314HDFNRS09</code>
-                    </td>
-                    <td>
-                        <span class="sub-text">Sangre:</span> <strong>O+</strong><br>
-                        <span class="sub-text">Tel:</span> 5512346789<br>
-                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Penicilina</span>
-                    </td>
-                    <td>
-                        <strong>Hipertensión leve</strong><br>
-                        <span class="sub-text">Sinto:</span> Dolor de cabeza frecuente<br>
-                        <span class="sub-text">Lesión:</span> Sin lesiones actuales
-                    </td>
-                    <td>
-                        <ul class="bullet-list">
-                            <li>Sobrepeso desde el año 2022.</li>
-                            <li>Presión arterial elevada en revisiones previas.</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <span class="badge imss">IMSS</span><br>
-                        <span class="sub-text">Póliza:</span> 78451236<br>
-                        <span class="sub-text">Tipo:</span> Consulta general<br>
-                        <span class="sub-text">Reg:</span> 15/01/2025
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Fernanda López Díaz</span>
-                        <span class="sub-text">Femenino • 26 años<br>Est. Civil: Soltera</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>LODF920215CD2</code><br>
-                        <span class="sub-text">CURP:</span> <code>LODF991122MDFPRN05</code>
-                    </td>
-                    <td>
-                        <span class="sub-text">Sangre:</span> <strong>A-</strong><br>
-                        <span class="sub-text">Tel:</span> 5523457890<br>
-                        <span class="sub-text">Alergias:</span> <span class="alergia-none">Ninguna</span>
-                    </td>
-                    <td>
-                        <strong>Anemia</strong><br>
-                        <span class="sub-text">Sinto:</span> Cansancio y mareos<br>
-                        <span class="sub-text">Lesión:</span> Hematomas leves en extremidades inferiores
-                    </td>
-                    <td>
-                        <ul class="bullet-list">
-                            <li>Crisis recurrentes de anemia (2021 y 2023).</li>
-                            <li>Tratamiento de suplementación con hierro.</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <span class="badge issste">ISSSTE</span><br>
-                        <span class="sub-text">Póliza:</span> 45879632<br>
-                        <span class="sub-text">Tipo:</span> Hematología<br>
-                        <span class="sub-text">Reg:</span> 10/02/2025
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Jorge Ramírez Soto</span>
-                        <span class="sub-text">Masculino • 37 años<br>Est. Civil: Casado</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>RASJ880430EF3</code><br>
-                        <span class="sub-text">CURP:</span> <code>RASJ880709HDFMTR03</code>
-                    </td>
-                    <td>
-                        <span class="sub-text">Sangre:</span> <strong>B+</strong><br>
-                        <span class="sub-text">Tel:</span> 5534568901<br>
-                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Sulfas</span>
-                    </td>
-                    <td>
-                        <strong>Diabetes tipo 2</strong><br>
-                        <span class="sub-text">Sinto:</span> Glucosa elevada<br>
-                        <span class="sub-text">Lesión:</span> Úlcera controlada en pie derecho
-                    </td>
-                    <td>
-                        <ul class="bullet-list">
-                            <li>Diagnóstico inicial establecido en 2020.</li>
-                            <li>Bajo régimen de metformina.</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <span class="badge imss">IMSS</span><br>
-                        <span class="sub-text">Póliza:</span> 96325874<br>
-                        <span class="sub-text">Tipo:</span> Control metabólico<br>
-                        <span class="sub-text">Reg:</span> 28/01/2025
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Daniela Torres Vega</span>
-                        <span class="sub-text">Femenino • 23 años<br>Est. Civil: Soltera</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>TOVD990120GH4</code><br>
-                        <span class="sub-text">CURP:</span> <code>TOVD030130MDFRNG07</code>
-                    </td>
-                    <td>
-                        <span class="sub-text">Sangre:</span> <strong>O-</strong><br>
-                        <span class="sub-text">Tel:</span> 5545679012<br>
-                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Aspirina</span>
-                    </td>
-                    <td>
-                        <strong>Gastritis crónica</strong><br>
-                        <span class="sub-text">Sinto:</span> Dolor abdominal<br>
-                        <span class="sub-text">Lesión:</span> Sin lesiones físicas
-                    </td>
-                    <td>
-                        <ul class="bullet-list">
-                            <li>Episodios agudos y recurrentes desde 2021.</li>
-                            <li>Uso clínico de omeprazol.</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <span class="badge privado">Privado</span><br>
-                        <span class="sub-text">Póliza:</span> 11223344<br>
-                        <span class="sub-text">Tipo:</span> Gastroenterología<br>
-                        <span class="sub-text">Reg:</span> 05/02/2025
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Luis Herrera Campos</span>
-                        <span class="sub-text">Masculino • 30 años<br>Est. Civil: Casado</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>HECM870315IJ5</code><br>
-                        <span class="sub-text">CURP:</span> <code>HECL950518HDFRMS04</code>
-                    </td>
-                    <td>
-                        <span class="sub-text">Sangre:</span> <strong>AB+</strong><br>
-                        <span class="sub-text">Tel:</span> 5556780123<br>
-                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Polvo</span>
-                    </td>
-                    <td>
-                        <strong>Asma</strong><br>
-                        <span class="sub-text">Sinto:</span> Dificultad respiratoria<br>
-                        <span class="sub-text">Lesión:</span> Inflamación leve en vías aéreas
-                    </td>
-                    <td>
-                        <ul class="bullet-list">
-                            <li>Crisis recurrentes presentes desde la infancia.</li>
-                            <li>Tratado mediante uso de inhalador.</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <span class="badge imss">IMSS</span><br>
-                        <span class="sub-text">Póliza:</span> 55667788<br>
-                        <span class="sub-text">Tipo:</span> Neumología<br>
-                        <span class="sub-text">Reg:</span> 20/01/2025
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Mariana Cruz León</span>
-                        <span class="sub-text">Femenino • 23 años<br>Est. Civil: Soltera</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>CRLM910808KL6</code><br>
-                        <span class="sub-text">CURP:</span> <code>CULM020927MDFRNR08</code>
-                    </td>
-                    <td>
-                        <span class="sub-text">Sangre:</span> <strong>A+</strong><br>
-                        <span class="sub-text">Tel:</span> 5567891234<br>
-                        <span class="sub-text">Alergias:</span> <span class="alergia-none">Ninguna</span>
-                    </td>
-                    <td>
-                        <strong>Migraña</strong><br>
-                        <span class="sub-text">Sinto:</span> Dolor de cabeza de intensidad alta<br>
-                        <span class="sub-text">Lesión:</span> Contractura muscular en cuello
-                    </td>
-                    <td>
-                        <ul class="bullet-list">
-                            <li>Migrañas frecuentes con inicio desde los 15 años.</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <span class="badge privado">Privado</span><br>
-                        <span class="sub-text">Póliza:</span> 99887766<br>
-                        <span class="sub-text">Tipo:</span> Neurología<br>
-                        <span class="sub-text">Reg:</span> 12/02/2025
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Ricardo Navarro Gil</span>
-                        <span class="sub-text">Masculino • 40 años<br>Est. Civil: Divorciado</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>NAGR860422MN7</code><br>
-                        <span class="sub-text">CURP:</span> <code>NAGR851203HDFRCL02</code>
-                    </td>
-                    <td>
-                        <span class="sub-text">Sangre:</span> <strong>B-</strong><br>
-                        <span class="sub-text">Tel:</span> 5578902345<br>
-                        <span class="sub-text">Alergias:</span> <span class="alergia-alert">Mariscos</span>
-                    </td>
-                    <td>
-                        <strong>Colesterol alto</strong><br>
-                        <span class="sub-text">Sinto:</span> Fatiga generalizada<br>
-                        <span class="sub-text">Lesión:</span> Molestia en rodilla derecha por artrosis
-                    </td>
-                    <td>
-                        <ul class="bullet-list">
-                            <li>Hiperlipidemia diagnosticada de origen en 2022.</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <span class="badge issste">ISSSTE</span><br>
-                        <span class="sub-text">Póliza:</span> 33445566<br>
-                        <span class="sub-text">Tipo:</span> Cardiología<br>
-                        <span class="sub-text">Reg:</span> 18/01/2025
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Sofía Morales Ríos</span>
-                        <span class="sub-text">Femenino • 21 años<br>Est. Civil: Soltera</span>
-                    </td>
-                    <td>
-                        <span class="sub-text">RFC:</span> <code>MORR930712OP8</code><br>
-                        <span class="sub-text">CURP:</span> <code>MORS040611MDFRFS06</code>
-                    </td>
-                    <td>
-                        <span class="sub-text">Sangre:</span> <strong>O+</strong><br>
-                        <span class="sub-text">Tel:</span> 5589013456<br>
-                        <span class="sub-text">Alergias:</span> <span class="alergia-none">Ninguna</span>
-                    </td>
-                    <td>
-                        <strong>Infección urinaria</strong><br>
-                        <span class="sub-text">Sinto:</span> Disuria (ardor al orinar)<br>
-                        <span class="sub-text">Lesión:</span> Irritación en conductos urinarios
-                    </td>
-                    <td>
-                        <ul class="bullet-list">
-                            <li>Primer evento clínico reportado para esta patología.</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <span class="badge imss">IMSS</span><br>
-                        <span class="sub-text">Póliza:</span> 77889900<br>
-                        <span class="sub-text">Tipo:</span> Medicina general<br>
-                        <span class="sub-text">Reg:</span> 14/02/2025
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="admin-bar" id="adminBar">
+  <span>✅ Modo Admin Activo</span>
+  <button class="btn btn-danger btn-sm" onclick="logoutAdmin()">Cerrar sesión</button>
+</div>
 
+<div class="container">
+
+  <!-- FORMULARIO -->
+  <div class="card" id="formCard">
+    <div class="card-header" onclick="toggleForm()">
+      <span>📋 Nuevo Paciente</span><span id="formArrow">▼</span>
+    </div>
+    <div class="card-body" id="formBody">
+      <div class="form-grid">
+        <div class="form-group"><label>Nombre completo *</label><input id="f_nombre" placeholder="Juan Pérez López"></div>
+        <div class="form-group"><label>Edad</label><input id="f_edad" type="number" placeholder="30"></div>
+        <div class="form-group"><label>Teléfono</label><input id="f_telefono" placeholder="5512345678"></div>
+        <div class="form-group"><label>Tipo de Sangre</label>
+          <select id="f_sangre"><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option></select>
+        </div>
+        <div class="form-group"><label>Alergias</label><input id="f_alergias" placeholder="Ninguna / Penicilina..."></div>
+        <div class="form-group"><label>Diagnóstico</label><input id="f_diagnostico" placeholder="Hipertensión"></div>
+        <div class="form-group"><label>Seguro</label>
+          <select id="f_seguro"><option>IMSS</option><option>ISSSTE</option><option>Privado</option></select>
+        </div>
+        <div class="form-group"><label>Número de Póliza</label><input id="f_poliza" placeholder="12345678"></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-success" onclick="guardarPaciente()">💾 Guardar Paciente</button>
+        <button class="btn btn-warning" onclick="cancelarForm()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA DINÁMICA -->
+  <div class="section-title">
+    Pacientes Registrados <span class="count-badge" id="conteo">0</span>
+  </div>
+  <div class="tabla-contenedor">
+    <table>
+      <thead>
+        <tr>
+          <th>Paciente</th>
+          <th>Teléfono</th>
+          <th>Sangre</th>
+          <th>Alergias</th>
+          <th>Diagnóstico</th>
+          <th>Seguro / Póliza</th>
+          <th id="col-acciones" style="display:none">Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tablaPacientes">
+        <tr><td colspan="7" class="empty-state">Cargando pacientes...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL ADMIN -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal">
+    <h3>🔐 Acceso Administrador</h3>
+    <input type="password" id="adminPass" placeholder="Contraseña de admin" onkeydown="if(event.key==='Enter')loginAdmin()">
+    <div id="adminError" style="color:#e74c3c;font-size:12px;margin-bottom:10px;display:none">Contraseña incorrecta</div>
+    <div class="modal-actions">
+      <button class="btn btn-admin" onclick="loginAdmin()">Ingresar</button>
+      <button class="btn" style="background:#eee" onclick="closeAdminModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDICIÓN -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal" style="width:500px;max-height:80vh;overflow-y:auto">
+    <h3>✏️ Editar Paciente</h3>
+    <input type="hidden" id="e_id">
+    <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div class="form-group"><label>Nombre</label><input id="e_nombre"></div>
+      <div class="form-group"><label>Edad</label><input id="e_edad" type="number"></div>
+      <div class="form-group"><label>Teléfono</label><input id="e_telefono"></div>
+      <div class="form-group"><label>Alergias</label><input id="e_alergias"></div>
+      <div class="form-group"><label>Diagnóstico</label><input id="e_diagnostico"></div>
+      <div class="form-group"><label>Seguro</label>
+        <select id="e_seguro"><option>IMSS</option><option>ISSSTE</option><option>Privado</option></select>
+      </div>
+      <div class="form-group" style="grid-column:1/-1"><label>Historial</label><textarea id="e_historial" rows="2"></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-success" onclick="actualizarPaciente()">💾 Guardar</button>
+      <button class="btn" style="background:#eee" onclick="closeEditModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API = '/api/pacientes';
+  let isAdmin = false;
+  let pacientesData = [];
+
+  // ── Cargar pacientes ──────────────────────────────────────────────────────
+  async function cargarPacientes() {
+    try {
+      const res = await fetch(API);
+      pacientesData = await res.json();
+      renderTabla(pacientesData);
+    } catch { renderTabla([]); }
+  }
+
+  function renderTabla(datos) {
+    const tbody = document.getElementById('tablaPacientes');
+    const colAcc = document.getElementById('col-acciones');
+    document.getElementById('conteo').textContent = datos.length;
+    colAcc.style.display = isAdmin ? '' : 'none';
+
+    if (!datos.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No hay pacientes registrados aún.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = datos.map(p => `
+      <tr>
+        <td>
+          <div class="patient-name">${p.nombre}</div>
+          <div class="sub-text">${p.edad ? p.edad + ' años' : ''}</div>
+        </td>
+        <td>${p.telefono || '-'}</td>
+        <td><strong>${p.sangre || '-'}</strong></td>
+        <td>${p.alergias && p.alergias.toLowerCase() !== 'ninguna'
+          ? `<span class="alergia-alert">⚠ ${p.alergias}</span>`
+          : `<span class="alergia-none">Ninguna</span>`}
+        </td>
+        <td><strong>${p.diagnostico || '-'}</strong></td>
+        <td>
+          <span class="badge ${(p.seguro||'').toLowerCase()}">${p.seguro || '-'}</span>
+          <div class="sub-text">Póliza: ${p.poliza || '-'}</div>
+        </td>
+        ${isAdmin ? `<td>
+          <div class="action-btns">
+            <button class="btn btn-warning btn-sm" onclick="abrirEditar('${p._id}')">✏️</button>
+            <button class="btn btn-danger btn-sm" onclick="eliminar('${p._id}')">🗑️</button>
+          </div>
+        </td>` : '<td style="display:none"></td>'}
+      </tr>
+    `).join('');
+  }
+
+  // ── Guardar ───────────────────────────────────────────────────────────────
+  async function guardarPaciente() {
+    const nombre = document.getElementById('f_nombre').value.trim();
+    if (!nombre) { alert('El nombre es obligatorio'); return; }
+    const data = {
+      nombre,
+      edad: document.getElementById('f_edad').value,
+      telefono: document.getElementById('f_telefono').value,
+      sangre: document.getElementById('f_sangre').value,
+      alergias: document.getElementById('f_alergias').value,
+      diagnostico: document.getElementById('f_diagnostico').value,
+      seguro: document.getElementById('f_seguro').value,
+      poliza: document.getElementById('f_poliza').value,
+    };
+    await fetch(API, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+    cancelarForm();
+    cargarPacientes();
+  }
+
+  // ── Editar ────────────────────────────────────────────────────────────────
+  function abrirEditar(id) {
+    const p = pacientesData.find(x => x._id === id);
+    if (!p) return;
+    document.getElementById('e_id').value = p._id;
+    document.getElementById('e_nombre').value = p.nombre || '';
+    document.getElementById('e_edad').value = p.edad || '';
+    document.getElementById('e_telefono').value = p.telefono || '';
+    document.getElementById('e_alergias').value = p.alergias || '';
+    document.getElementById('e_diagnostico').value = p.diagnostico || '';
+    document.getElementById('e_seguro').value = p.seguro || 'IMSS';
+    document.getElementById('e_historial').value = p.historial || '';
+    document.getElementById('editModal').classList.add('open');
+  }
+
+  async function actualizarPaciente() {
+    const id = document.getElementById('e_id').value;
+    const data = {
+      nombre: document.getElementById('e_nombre').value,
+      edad: document.getElementById('e_edad').value,
+      telefono: document.getElementById('e_telefono').value,
+      alergias: document.getElementById('e_alergias').value,
+      diagnostico: document.getElementById('e_diagnostico').value,
+      seguro: document.getElementById('e_seguro').value,
+      historial: document.getElementById('e_historial').value,
+    };
+    await fetch(`${API}/${id}`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+    closeEditModal();
+    cargarPacientes();
+  }
+
+  function closeEditModal() { document.getElementById('editModal').classList.remove('open'); }
+
+  // ── Eliminar ──────────────────────────────────────────────────────────────
+  async function eliminar(id) {
+    if (!confirm('¿Eliminar este paciente?')) return;
+    await fetch(`${API}/${id}`, { method: 'DELETE' });
+    cargarPacientes();
+  }
+
+  // ── Form toggle ───────────────────────────────────────────────────────────
+  function toggleForm() {
+    const body = document.getElementById('formBody');
+    const arrow = document.getElementById('formArrow');
+    body.classList.toggle('open');
+    arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+  }
+  function cancelarForm() {
+    document.getElementById('formBody').classList.remove('open');
+    document.getElementById('formArrow').textContent = '▼';
+  }
+
+  // ── Admin ─────────────────────────────────────────────────────────────────
+  function openAdminModal() { document.getElementById('adminModal').classList.add('open'); document.getElementById('adminPass').value=''; document.getElementById('adminError').style.display='none'; }
+  function closeAdminModal() { document.getElementById('adminModal').classList.remove('open'); }
+
+  async function loginAdmin() {
+    const pass = document.getElementById('adminPass').value;
+    try {
+      const res = await fetch('/api/admin/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password: pass}) });
+      const data = await res.json();
+      if (data.success) {
+        isAdmin = true;
+        closeAdminModal();
+        document.getElementById('adminBar').classList.add('visible');
+        renderTabla(pacientesData);
+      } else {
+        document.getElementById('adminError').style.display = 'block';
+      }
+    } catch { document.getElementById('adminError').style.display = 'block'; }
+  }
+
+  function logoutAdmin() {
+    isAdmin = false;
+    document.getElementById('adminBar').classList.remove('visible');
+    renderTabla(pacientesData);
+  }
+
+  cargarPacientes();
+</script>
 </body>
 </html>
