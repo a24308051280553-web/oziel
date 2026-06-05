@@ -2,17 +2,18 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Plantilla Médica</title>
+  <title>Registro Clínico de Pacientes</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7fafc; color: #2d3748; font-size: 14px; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8fafc; color: #2c3e50; font-size: 14px; }
 
-    .nav { background: #2b6cb0; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+    /* NAV */
+    .nav { background: #1a5276; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
     .nav h1 { color: #fff; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
     .nav-btns { display: flex; gap: 10px; }
     .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; transition: .2s; }
-    .btn-primary { background: #3182ce; color: #fff; }
-    .btn-primary:hover { background: #2c5282; }
+    .btn-primary { background: #2980b9; color: #fff; }
+    .btn-primary:hover { background: #1f6391; }
     .btn-success { background: #27ae60; color: #fff; }
     .btn-success:hover { background: #1e8449; }
     .btn-danger { background: #e74c3c; color: #fff; }
@@ -23,57 +24,66 @@
     .btn-admin:hover { background: #6c3483; }
     .btn-sm { padding: 5px 10px; font-size: 12px; }
 
+    /* MAIN */
     .container { padding: 24px; max-width: 1400px; margin: 0 auto; }
 
+    /* FORM CARD */
     .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.08); margin-bottom: 24px; overflow: hidden; }
-    .card-header { background: #2b6cb0; color: #fff; padding: 14px 20px; font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .card-header { background: #1a5276; color: #fff; padding: 14px 20px; font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .card-header span { font-size: 18px; }
     .card-body { padding: 20px; display: none; }
     .card-body.open { display: block; }
 
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
     .form-group { display: flex; flex-direction: column; gap: 5px; }
     .form-group label { font-size: 12px; font-weight: 600; color: #555; text-transform: uppercase; }
-    .form-group input, .form-group select { padding: 9px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; outline: none; transition: .2s; }
-    .form-group input:focus, .form-group select:focus { border-color: #2b6cb0; box-shadow: 0 0 0 2px rgba(43,108,176,.1); }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; outline: none; transition: .2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #1a5276; box-shadow: 0 0 0 2px rgba(26,82,118,.1); }
+    .form-group.full { grid-column: 1 / -1; }
     .form-actions { margin-top: 16px; display: flex; gap: 10px; }
 
+    /* TABLE */
     .tabla-contenedor { overflow-x: auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
     table { width: 100%; border-collapse: collapse; }
-    th { background: #2b6cb0; color: #fff; padding: 12px 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
-    td { padding: 11px 10px; border-bottom: 1px solid #e2e8f0; vertical-align: top; font-size: 13px; }
+    th { background: #1a5276; color: #fff; padding: 12px 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; }
+    td { padding: 11px 10px; border-bottom: 1px solid #eee; vertical-align: top; font-size: 13px; }
     tbody tr:nth-child(even) { background: #f8fafc; }
-    tbody tr:hover { background: #edf2f7; }
+    tbody tr:hover { background: #f1f5f9; }
 
-    .badge-turno { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
-    .matutino { background: #e6fffa; color: #234e52; border: 1px solid #b2f5ea; }
-    .vespertino { background: #fffaf0; color: #7b341e; border: 1px solid #feebc8; }
-    .mixto { background: #f7fafc; color: #4a5568; border: 1px solid #e2e8f0; }
-    .status-activo { color: #22543d; background: #c6f6d5; font-weight: 700; padding: 3px 8px; border-radius: 4px; border: 1px solid #9ae6b4; font-size: 11px; text-transform: uppercase; }
-    .doctor-name { font-weight: 700; color: #1a365d; }
-    .specialty { font-weight: 700; color: #2b6cb0; }
-    .sub-text { color: #718096; font-size: 11px; }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+    .imss { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .issste { background: #ffedd5; color: #9a3412; border: 1px solid #fed7aa; }
+    .privado { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .alergia-alert { color: #b91c1c; background: #fee2e2; padding: 2px 6px; border-radius: 4px; border: 1px solid #fecaca; font-weight: 700; }
+    .alergia-none { color: #94a3b8; font-style: italic; }
+    .patient-name { font-weight: 700; color: #1e293b; }
+    .sub-text { color: #64748b; font-size: 11px; }
 
+    /* MODAL */
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; justify-content: center; align-items: center; }
     .modal-overlay.open { display: flex; }
-    .modal { background: #fff; border-radius: 12px; padding: 28px; width: 440px; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
-    .modal h3 { margin-bottom: 16px; color: #2b6cb0; }
-    .modal input, .modal select { width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; margin-bottom: 12px; outline: none; }
+    .modal { background: #fff; border-radius: 12px; padding: 28px; width: 360px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+    .modal h3 { margin-bottom: 16px; color: #1a5276; }
+    .modal input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; margin-bottom: 14px; outline: none; }
+    .modal input:focus { border-color: #8e44ad; }
     .modal-actions { display: flex; gap: 10px; }
     .admin-bar { display: none; background: #8e44ad; color: #fff; padding: 8px 24px; font-size: 13px; align-items: center; gap: 12px; }
     .admin-bar.visible { display: flex; }
-    .section-title { font-size: 16px; font-weight: 700; color: #2b6cb0; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-    .count-badge { background: #2b6cb0; color: #fff; border-radius: 20px; padding: 2px 10px; font-size: 12px; }
+
+    .section-title { font-size: 16px; font-weight: 700; color: #1a5276; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .count-badge { background: #1a5276; color: #fff; border-radius: 20px; padding: 2px 10px; font-size: 12px; }
     .empty-state { text-align: center; padding: 40px; color: #94a3b8; font-style: italic; }
     .action-btns { display: flex; gap: 6px; }
-    code { font-family: monospace; font-size: 12px; color: #2d3748; background: #edf2f7; padding: 2px 5px; border-radius: 4px; }
   </style>
 </head>
 <body>
 
 <div class="nav">
-  <h1>👨‍⚕️ Plantilla Médica</h1>
+  <h1>🏥 Control Clínico de Pacientes</h1>
   <div class="nav-btns">
-    <button class="btn btn-primary" onclick="toggleForm()">+ Agregar Médico</button>
+    <button class="btn btn-primary" onclick="toggleForm()">+ Agregar Paciente</button>
     <button class="btn btn-admin" onclick="openAdminModal()">🔐 Admin</button>
   </div>
 </div>
@@ -85,59 +95,52 @@
 
 <div class="container">
 
-  <div class="card">
+  <!-- FORMULARIO -->
+  <div class="card" id="formCard">
     <div class="card-header" onclick="toggleForm()">
-      <span>📋 Nuevo Médico</span><span id="formArrow">▼</span>
+      <span>📋 Nuevo Paciente</span><span id="formArrow">▼</span>
     </div>
     <div class="card-body" id="formBody">
       <div class="form-grid">
-        <div class="form-group"><label>Nombre completo *</label><input id="f_nombre" placeholder="Dr. Juan Pérez"></div>
-        <div class="form-group"><label>Edad</label><input id="f_edad" type="number" placeholder="40"></div>
-        <div class="form-group"><label>Especialidad</label>
-          <select id="f_especialidad">
-            <option>Cardiología</option><option>Pediatría</option><option>Traumatología</option>
-            <option>Dermatología</option><option>Neurología</option><option>Ginecología</option>
-            <option>Medicina Interna</option><option>Oftalmología</option><option>Cirugía General</option>
-          </select>
-        </div>
-        <div class="form-group"><label>Subespecialidad</label><input id="f_subespecialidad" placeholder="Neonatología (opcional)"></div>
-        <div class="form-group"><label>Cédula Profesional</label><input id="f_cedula" placeholder="7844561"></div>
-        <div class="form-group"><label>Años de Experiencia</label><input id="f_experiencia" type="number" placeholder="10"></div>
-        <div class="form-group"><label>RFC</label><input id="f_rfc" placeholder="RARJ801010AB1"></div>
-        <div class="form-group"><label>CURP</label><input id="f_curp" placeholder="RARJ801010HDFRMS01"></div>
-        <div class="form-group"><label>Días de Atención</label><input id="f_horario" placeholder="Lun-Vie"></div>
-        <div class="form-group"><label>Turno</label>
-          <select id="f_turno"><option>Matutino</option><option>Vespertino</option><option>Mixto</option></select>
-        </div>
+        <div class="form-group"><label>Nombre completo *</label><input id="f_nombre" placeholder="Juan Pérez López"></div>
+        <div class="form-group"><label>Edad</label><input id="f_edad" type="number" placeholder="30"></div>
         <div class="form-group"><label>Teléfono</label><input id="f_telefono" placeholder="5512345678"></div>
-        <div class="form-group"><label>Ubicación / Consultorio</label><input id="f_ubicacion" placeholder="Av. Reforma 123, CDMX"></div>
-        <div class="form-group"><label>Fecha de Contratación</label><input id="f_fechaContratacion" type="date"></div>
+        <div class="form-group"><label>Tipo de Sangre</label>
+          <select id="f_sangre"><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option></select>
+        </div>
+        <div class="form-group"><label>Alergias</label><input id="f_alergias" placeholder="Ninguna / Penicilina..."></div>
+        <div class="form-group"><label>Diagnóstico</label><input id="f_diagnostico" placeholder="Hipertensión"></div>
+        <div class="form-group"><label>Seguro</label>
+          <select id="f_seguro"><option>IMSS</option><option>ISSSTE</option><option>Privado</option></select>
+        </div>
+        <div class="form-group"><label>Número de Póliza</label><input id="f_poliza" placeholder="12345678"></div>
       </div>
       <div class="form-actions">
-        <button class="btn btn-success" onclick="guardar()">💾 Guardar</button>
+        <button class="btn btn-success" onclick="guardarPaciente()">💾 Guardar Paciente</button>
         <button class="btn btn-warning" onclick="cancelarForm()">Cancelar</button>
       </div>
     </div>
   </div>
 
+  <!-- TABLA DINÁMICA -->
   <div class="section-title">
-    Médicos Registrados <span class="count-badge" id="conteo">0</span>
+    Pacientes Registrados <span class="count-badge" id="conteo">0</span>
   </div>
   <div class="tabla-contenedor">
     <table>
       <thead>
         <tr>
-          <th>Médico Especialista</th>
-          <th>Especialidad</th>
-          <th>Identificaciones</th>
-          <th>Horario y Turno</th>
-          <th>Contacto</th>
-          <th>Estatus</th>
+          <th>Paciente</th>
+          <th>Teléfono</th>
+          <th>Sangre</th>
+          <th>Alergias</th>
+          <th>Diagnóstico</th>
+          <th>Seguro / Póliza</th>
           <th id="col-acciones" style="display:none">Acciones</th>
         </tr>
       </thead>
-      <tbody id="tablaMedicos">
-        <tr><td colspan="7" class="empty-state">Cargando...</td></tr>
+      <tbody id="tablaPacientes">
+        <tr><td colspan="7" class="empty-state">Cargando pacientes...</td></tr>
       </tbody>
     </table>
   </div>
@@ -147,7 +150,7 @@
 <div class="modal-overlay" id="adminModal">
   <div class="modal">
     <h3>🔐 Acceso Administrador</h3>
-    <input type="password" id="adminPass" placeholder="Contraseña" onkeydown="if(event.key==='Enter')loginAdmin()">
+    <input type="password" id="adminPass" placeholder="Contraseña de admin" onkeydown="if(event.key==='Enter')loginAdmin()">
     <div id="adminError" style="color:#e74c3c;font-size:12px;margin-bottom:10px;display:none">Contraseña incorrecta</div>
     <div class="modal-actions">
       <button class="btn btn-admin" onclick="loginAdmin()">Ingresar</button>
@@ -158,119 +161,177 @@
 
 <!-- MODAL EDICIÓN -->
 <div class="modal-overlay" id="editModal">
-  <div class="modal">
-    <h3>✏️ Editar Médico</h3>
+  <div class="modal" style="width:500px;max-height:80vh;overflow-y:auto">
+    <h3>✏️ Editar Paciente</h3>
     <input type="hidden" id="e_id">
-    <label style="font-size:12px;font-weight:600;color:#555">NOMBRE</label>
-    <input id="e_nombre">
-    <label style="font-size:12px;font-weight:600;color:#555">ESPECIALIDAD</label>
-    <select id="e_especialidad">
-      <option>Cardiología</option><option>Pediatría</option><option>Traumatología</option>
-      <option>Dermatología</option><option>Neurología</option><option>Ginecología</option>
-      <option>Medicina Interna</option><option>Oftalmología</option><option>Cirugía General</option>
-    </select>
-    <label style="font-size:12px;font-weight:600;color:#555">TURNO</label>
-    <select id="e_turno"><option>Matutino</option><option>Vespertino</option><option>Mixto</option></select>
-    <label style="font-size:12px;font-weight:600;color:#555">TELÉFONO</label>
-    <input id="e_telefono">
-    <label style="font-size:12px;font-weight:600;color:#555">UBICACIÓN</label>
-    <input id="e_ubicacion">
+    <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div class="form-group"><label>Nombre</label><input id="e_nombre"></div>
+      <div class="form-group"><label>Edad</label><input id="e_edad" type="number"></div>
+      <div class="form-group"><label>Teléfono</label><input id="e_telefono"></div>
+      <div class="form-group"><label>Alergias</label><input id="e_alergias"></div>
+      <div class="form-group"><label>Diagnóstico</label><input id="e_diagnostico"></div>
+      <div class="form-group"><label>Seguro</label>
+        <select id="e_seguro"><option>IMSS</option><option>ISSSTE</option><option>Privado</option></select>
+      </div>
+      <div class="form-group" style="grid-column:1/-1"><label>Historial</label><textarea id="e_historial" rows="2"></textarea></div>
+    </div>
     <div class="modal-actions">
-      <button class="btn btn-success" onclick="actualizar()">💾 Guardar</button>
+      <button class="btn btn-success" onclick="actualizarPaciente()">💾 Guardar</button>
       <button class="btn" style="background:#eee" onclick="closeEditModal()">Cancelar</button>
     </div>
   </div>
 </div>
 
 <script>
-  const API = '/api/medicos';
+  const API = '/api/pacientes';
   let isAdmin = false;
-  let data = [];
+  let pacientesData = [];
 
-  async function cargar() {
-    try { const r = await fetch(API); data = await r.json(); renderTabla(data); } catch { renderTabla([]); }
+  // ── Cargar pacientes ──────────────────────────────────────────────────────
+  async function cargarPacientes() {
+    try {
+      const res = await fetch(API);
+      pacientesData = await res.json();
+      renderTabla(pacientesData);
+    } catch { renderTabla([]); }
   }
 
-  function renderTabla(items) {
-    const tbody = document.getElementById('tablaMedicos');
-    document.getElementById('conteo').textContent = items.length;
-    document.getElementById('col-acciones').style.display = isAdmin ? '' : 'none';
-    if (!items.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No hay médicos registrados.</td></tr>'; return; }
-    tbody.innerHTML = items.map(m => `
+  function renderTabla(datos) {
+    const tbody = document.getElementById('tablaPacientes');
+    const colAcc = document.getElementById('col-acciones');
+    document.getElementById('conteo').textContent = datos.length;
+    colAcc.style.display = isAdmin ? '' : 'none';
+
+    if (!datos.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No hay pacientes registrados aún.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = datos.map(p => `
       <tr>
-        <td><div class="doctor-name">${m.nombre}</div><div class="sub-text">Edad: ${m.edad || '-'} años</div></td>
-        <td><div class="specialty">${m.especialidad || '-'}</div>
-          ${m.subespecialidad ? `<div class="sub-text" style="font-style:italic">Sub: ${m.subespecialidad}</div>` : ''}
-          <div class="sub-text">Cédula: ${m.cedula || '-'}</div>
-          <div class="sub-text">Exp: ${m.experiencia || '-'} años</div>
+        <td>
+          <div class="patient-name">${p.nombre}</div>
+          <div class="sub-text">${p.edad ? p.edad + ' años' : ''}</div>
         </td>
-        <td><div class="sub-text">RFC: <code>${m.rfc || '-'}</code></div><div class="sub-text">CURP: <code>${m.curp || '-'}</code></div></td>
-        <td><strong>${m.horario || '-'}</strong><br><span class="badge-turno ${(m.turno||'').toLowerCase()}">${m.turno || '-'}</span></td>
-        <td><div class="sub-text">Tel: ${m.telefono || '-'}</div><div class="sub-text" style="font-size:11px">${m.ubicacion || '-'}</div></td>
-        <td><span class="status-activo">Activo</span><div class="sub-text">Contrat: ${m.fechaContratacion || '-'}</div></td>
-        ${isAdmin ? `<td><div class="action-btns">
-          <button class="btn btn-warning btn-sm" onclick="abrirEditar('${m._id}')">✏️</button>
-          <button class="btn btn-danger btn-sm" onclick="eliminar('${m._id}')">🗑️</button>
-        </div></td>` : '<td style="display:none"></td>'}
+        <td>${p.telefono || '-'}</td>
+        <td><strong>${p.sangre || '-'}</strong></td>
+        <td>${p.alergias && p.alergias.toLowerCase() !== 'ninguna'
+          ? `<span class="alergia-alert">⚠ ${p.alergias}</span>`
+          : `<span class="alergia-none">Ninguna</span>`}
+        </td>
+        <td><strong>${p.diagnostico || '-'}</strong></td>
+        <td>
+          <span class="badge ${(p.seguro||'').toLowerCase()}">${p.seguro || '-'}</span>
+          <div class="sub-text">Póliza: ${p.poliza || '-'}</div>
+        </td>
+        ${isAdmin ? `<td>
+          <div class="action-btns">
+            <button class="btn btn-warning btn-sm" onclick="abrirEditar('${p._id}')">✏️</button>
+            <button class="btn btn-danger btn-sm" onclick="eliminar('${p._id}')">🗑️</button>
+          </div>
+        </td>` : '<td style="display:none"></td>'}
       </tr>
     `).join('');
   }
 
-  async function guardar() {
+  // ── Guardar ───────────────────────────────────────────────────────────────
+  async function guardarPaciente() {
     const nombre = document.getElementById('f_nombre').value.trim();
     if (!nombre) { alert('El nombre es obligatorio'); return; }
-    const body = { nombre, edad: document.getElementById('f_edad').value, especialidad: document.getElementById('f_especialidad').value,
-      subespecialidad: document.getElementById('f_subespecialidad').value, cedula: document.getElementById('f_cedula').value,
-      experiencia: document.getElementById('f_experiencia').value, rfc: document.getElementById('f_rfc').value,
-      curp: document.getElementById('f_curp').value, horario: document.getElementById('f_horario').value,
-      turno: document.getElementById('f_turno').value, telefono: document.getElementById('f_telefono').value,
-      ubicacion: document.getElementById('f_ubicacion').value, fechaContratacion: document.getElementById('f_fechaContratacion').value };
-    await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
-    cancelarForm(); cargar();
+    const data = {
+      nombre,
+      edad: document.getElementById('f_edad').value,
+      telefono: document.getElementById('f_telefono').value,
+      sangre: document.getElementById('f_sangre').value,
+      alergias: document.getElementById('f_alergias').value,
+      diagnostico: document.getElementById('f_diagnostico').value,
+      seguro: document.getElementById('f_seguro').value,
+      poliza: document.getElementById('f_poliza').value,
+    };
+    await fetch(API, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+    cancelarForm();
+    cargarPacientes();
   }
 
+  // ── Editar ────────────────────────────────────────────────────────────────
   function abrirEditar(id) {
-    const m = data.find(x => x._id === id); if (!m) return;
-    document.getElementById('e_id').value = m._id;
-    document.getElementById('e_nombre').value = m.nombre || '';
-    document.getElementById('e_especialidad').value = m.especialidad || 'Cardiología';
-    document.getElementById('e_turno').value = m.turno || 'Matutino';
-    document.getElementById('e_telefono').value = m.telefono || '';
-    document.getElementById('e_ubicacion').value = m.ubicacion || '';
+    const p = pacientesData.find(x => x._id === id);
+    if (!p) return;
+    document.getElementById('e_id').value = p._id;
+    document.getElementById('e_nombre').value = p.nombre || '';
+    document.getElementById('e_edad').value = p.edad || '';
+    document.getElementById('e_telefono').value = p.telefono || '';
+    document.getElementById('e_alergias').value = p.alergias || '';
+    document.getElementById('e_diagnostico').value = p.diagnostico || '';
+    document.getElementById('e_seguro').value = p.seguro || 'IMSS';
+    document.getElementById('e_historial').value = p.historial || '';
     document.getElementById('editModal').classList.add('open');
   }
 
-  async function actualizar() {
+  async function actualizarPaciente() {
     const id = document.getElementById('e_id').value;
-    const body = { nombre: document.getElementById('e_nombre').value, especialidad: document.getElementById('e_especialidad').value,
-      turno: document.getElementById('e_turno').value, telefono: document.getElementById('e_telefono').value,
-      ubicacion: document.getElementById('e_ubicacion').value };
-    await fetch(`${API}/${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
-    closeEditModal(); cargar();
+    const data = {
+      nombre: document.getElementById('e_nombre').value,
+      edad: document.getElementById('e_edad').value,
+      telefono: document.getElementById('e_telefono').value,
+      alergias: document.getElementById('e_alergias').value,
+      diagnostico: document.getElementById('e_diagnostico').value,
+      seguro: document.getElementById('e_seguro').value,
+      historial: document.getElementById('e_historial').value,
+    };
+    await fetch(`${API}/${id}`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+    closeEditModal();
+    cargarPacientes();
   }
 
-  async function eliminar(id) {
-    if (!confirm('¿Eliminar este médico?')) return;
-    await fetch(`${API}/${id}`, { method:'DELETE' }); cargar();
-  }
-
-  function toggleForm() { document.getElementById('formBody').classList.toggle('open'); document.getElementById('formArrow').textContent = document.getElementById('formBody').classList.contains('open') ? '▲' : '▼'; }
-  function cancelarForm() { document.getElementById('formBody').classList.remove('open'); document.getElementById('formArrow').textContent = '▼'; }
   function closeEditModal() { document.getElementById('editModal').classList.remove('open'); }
+
+  // ── Eliminar ──────────────────────────────────────────────────────────────
+  async function eliminar(id) {
+    if (!confirm('¿Eliminar este paciente?')) return;
+    await fetch(`${API}/${id}`, { method: 'DELETE' });
+    cargarPacientes();
+  }
+
+  // ── Form toggle ───────────────────────────────────────────────────────────
+  function toggleForm() {
+    const body = document.getElementById('formBody');
+    const arrow = document.getElementById('formArrow');
+    body.classList.toggle('open');
+    arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+  }
+  function cancelarForm() {
+    document.getElementById('formBody').classList.remove('open');
+    document.getElementById('formArrow').textContent = '▼';
+  }
+
+  // ── Admin ─────────────────────────────────────────────────────────────────
   function openAdminModal() { document.getElementById('adminModal').classList.add('open'); document.getElementById('adminPass').value=''; document.getElementById('adminError').style.display='none'; }
   function closeAdminModal() { document.getElementById('adminModal').classList.remove('open'); }
 
   async function loginAdmin() {
     const pass = document.getElementById('adminPass').value;
-    const res = await fetch('/api/admin/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password: pass}) });
-    const d = await res.json();
-    if (d.success) { isAdmin = true; closeAdminModal(); document.getElementById('adminBar').classList.add('visible'); renderTabla(data); }
-    else { document.getElementById('adminError').style.display = 'block'; }
+    try {
+      const res = await fetch('/api/admin/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password: pass}) });
+      const data = await res.json();
+      if (data.success) {
+        isAdmin = true;
+        closeAdminModal();
+        document.getElementById('adminBar').classList.add('visible');
+        renderTabla(pacientesData);
+      } else {
+        document.getElementById('adminError').style.display = 'block';
+      }
+    } catch { document.getElementById('adminError').style.display = 'block'; }
   }
 
-  function logoutAdmin() { isAdmin = false; document.getElementById('adminBar').classList.remove('visible'); renderTabla(data); }
+  function logoutAdmin() {
+    isAdmin = false;
+    document.getElementById('adminBar').classList.remove('visible');
+    renderTabla(pacientesData);
+  }
 
-  cargar();
+  cargarPacientes();
 </script>
 </body>
 </html>
