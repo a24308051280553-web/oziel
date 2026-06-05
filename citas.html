@@ -1,458 +1,275 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda General de Citas Médicas</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <title>Agenda de Citas Médicas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #fcfaff; color: #2c3e50; font-size: 14px; }
 
-        body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            margin: 30px;
-            color: #2c3e50;
-            background-color: #fcfaff;
-            font-size: 14px;
-        }
+    .nav { background: #4834d4; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .nav h1 { color: #fff; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+    .nav-btns { display: flex; gap: 10px; }
+    .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; transition: .2s; }
+    .btn-primary { background: #6c5ce7; color: #fff; }
+    .btn-primary:hover { background: #5a4bd1; }
+    .btn-success { background: #27ae60; color: #fff; }
+    .btn-success:hover { background: #1e8449; }
+    .btn-danger { background: #e74c3c; color: #fff; }
+    .btn-danger:hover { background: #c0392b; }
+    .btn-warning { background: #f39c12; color: #fff; }
+    .btn-warning:hover { background: #d68910; }
+    .btn-admin { background: #8e44ad; color: #fff; }
+    .btn-admin:hover { background: #6c3483; }
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
 
-        .header-container {
-            border-bottom: 3px solid #6c5ce7;
-            padding-bottom: 12px;
-            margin-bottom: 25px;
-        }
+    .container { padding: 24px; max-width: 1500px; margin: 0 auto; }
 
-        h1 {
-            color: #4834d4;
-            margin: 0 0 4px 0;
-            font-size: 26px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
+    .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.08); margin-bottom: 24px; overflow: hidden; }
+    .card-header { background: #4834d4; color: #fff; padding: 14px 20px; font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .card-body { padding: 20px; display: none; }
+    .card-body.open { display: block; }
 
-        .meta-info {
-            font-size: 14px;
-            color: #7f8c8d;
-        }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label { font-size: 12px; font-weight: 600; color: #555; text-transform: uppercase; }
+    .form-group input, .form-group select, .form-group textarea { padding: 9px 12px; border: 1px solid #dcdde1; border-radius: 6px; font-size: 13px; outline: none; transition: .2s; }
+    .form-group input:focus, .form-group select:focus { border-color: #4834d4; box-shadow: 0 0 0 2px rgba(72,52,212,.1); }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-actions { margin-top: 16px; display: flex; gap: 10px; }
 
-        .tabla-contenedor {
-            overflow-x: auto;
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 1px solid #dcdde1;
-        }
+    .tabla-contenedor { overflow-x: auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #4834d4; color: #fff; padding: 12px 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; }
+    td { padding: 11px 10px; border-bottom: 1px solid #f1f2f6; vertical-align: middle; font-size: 13px; }
+    tbody tr:nth-child(even) { background: #fbfbfb; }
+    tbody tr:hover { background: #f1f2f6; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
+    .patient-name { font-weight: 700; color: #2c3e50; }
+    .doc-assigned { font-size: 12px; color: #6c5ce7; font-weight: 600; }
+    .date-time { font-weight: 700; }
+    .sub-text { font-size: 11px; color: #7f8c8d; }
+    .room-badge { display: inline-block; background: #f1f2f6; color: #2f3640; font-weight: 600; font-size: 12px; padding: 3px 10px; border-radius: 20px; border: 1px solid #dcdde1; }
+    .cost-amount { font-weight: 700; color: #27ae60; }
+    .programada { background: #e3f2fd; color: #1e88e5; border: 1px solid #bbdefb; }
+    .completada { background: #e8f5e9; color: #43a047; border: 1px solid #c8e6c9; }
+    .badge-status { display: inline-block; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; }
 
-        th {
-            background-color: #4834d4;
-            color: #ffffff;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-            padding: 14px 12px;
-        }
-
-        td {
-            padding: 14px 12px;
-            border-bottom: 1px solid #f1f2f6;
-            vertical-align: middle;
-            line-height: 1.4;
-        }
-
-        tbody tr:nth-of-type(even) {
-            background-color: #fbfbfb;
-        }
-
-        tbody tr:hover {
-            background-color: #f1f2f6;
-            transition: background-color 0.2s ease;
-        }
-
-        .patient-name {
-            font-weight: 700;
-            color: #2c3e50;
-            font-size: 15px;
-            display: block;
-        }
-
-        .doc-assigned {
-            font-size: 12px;
-            color: #6c5ce7;
-            font-weight: 600;
-            margin-top: 2px;
-        }
-
-        .date-time {
-            font-weight: 700;
-            color: #2c3e50;
-        }
-
-        .sub-text {
-            font-size: 12px;
-            color: #7f8c8d;
-        }
-
-        .room-badge {
-            display: inline-block;
-            background-color: #f1f2f6;
-            color: #2f3640;
-            font-weight: 600;
-            font-size: 12px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            border: 1px solid #dcdde1;
-        }
-
-        .reason-text {
-            font-size: 13px;
-            margin-bottom: 3px;
-        }
-
-        .diag-text {
-            font-size: 13px;
-            font-weight: 600;
-            color: #2f3640;
-        }
-
-        .pendiente-texto {
-            color: #e67e22;
-            font-style: italic;
-            font-weight: normal;
-        }
-
-        .cost-amount {
-            font-weight: 700;
-            color: #27ae60;
-            font-size: 14px;
-        }
-
-        .badge-status {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            text-align: center;
-            width: 100px;
-        }
-
-        .programada {
-            background-color: #e3f2fd;
-            color: #1e88e5;
-            border: 1px solid #bbdefb;
-        }
-
-        .completada {
-            background-color: #e8f5e9;
-            color: #43a047;
-            border: 1px solid #c8e6c9;
-        }
-    </style>
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 12px; padding: 28px; width: 460px; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+    .modal h3 { margin-bottom: 16px; color: #4834d4; }
+    .modal input, .modal select { width: 100%; padding: 10px 14px; border: 1px solid #dcdde1; border-radius: 6px; font-size: 14px; margin-bottom: 12px; outline: none; }
+    .modal-actions { display: flex; gap: 10px; }
+    .admin-bar { display: none; background: #8e44ad; color: #fff; padding: 8px 24px; font-size: 13px; align-items: center; gap: 12px; }
+    .admin-bar.visible { display: flex; }
+    .section-title { font-size: 16px; font-weight: 700; color: #4834d4; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .count-badge { background: #4834d4; color: #fff; border-radius: 20px; padding: 2px 10px; font-size: 12px; }
+    .empty-state { text-align: center; padding: 40px; color: #94a3b8; font-style: italic; }
+    .action-btns { display: flex; gap: 6px; }
+  </style>
 </head>
 <body>
 
-    <div class="header-container">
-        <h1>Agenda General de Citas Médicas</h1>
-        <div class="meta-info">Control de Consultas, Diagnósticos, Tratamientos y Cobros</div>
-    </div>
+<div class="nav">
+  <h1>📅 Agenda de Citas Médicas</h1>
+  <div class="nav-btns">
+    <button class="btn btn-primary" onclick="toggleForm()">+ Nueva Cita</button>
+    <button class="btn btn-admin" onclick="openAdminModal()">🔐 Admin</button>
+  </div>
+</div>
 
-    <div class="tabla-contenedor">
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 22%;">Paciente / Médico Atendiente</th>
-                    <th style="width: 12%; text-align: center;">Fecha y Hora</th>
-                    <th style="width: 10%; text-align: center;">Consultorio</th>
-                    <th style="width: 25%;">Motivo y Diagnóstico</th>
-                    <th style="width: 14%;">Tratamiento Indicado</th>
-                    <th style="width: 10%;">Costo y Pago</th>
-                    <th style="width: 7%; text-align: center;">Estatus</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <span class="patient-name">Juan Pérez</span>
-                        <div class="doc-assigned">Atiende: Dr. Carlos Ramírez</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="date-time">2025-04-25</div>
-                        <div class="sub-text">10:30 hrs</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="room-badge">Con. 101</span>
-                    </td>
-                    <td>
-                        <div class="reason-text"><span class="sub-text">Motivo:</span> Dolor en el pecho</div>
-                        <div class="diag-text pendiente-texto"><span class="sub-text">Diag:</span> Pendiente</div>
-                    </td>
-                    <td>
-                        <div class="pendiente-texto">Pendiente</div>
-                    </td>
-                    <td>
-                        <div class="cost-amount">$800</div>
-                        <div class="sub-text">Efectivo</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge-status programada">Programada</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Maria López</span>
-                        <div class="doc-assigned">Atiende: Dra. Ana Torres</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="date-time">2026-04-18</div>
-                        <div class="sub-text">12:00 hrs</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="room-badge">Con. 102</span>
-                    </td>
-                    <td>
-                        <div class="reason-text"><span class="sub-text">Motivo:</span> Revisión general</div>
-                        <div class="diag-text"><span class="sub-text">Diag:</span> Migraña</div>
-                    </td>
-                    <td>
-                        <div>Ibuprofeno</div>
-                    </td>
-                    <td>
-                        <div class="cost-amount">$600</div>
-                        <div class="sub-text">Tarjeta</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge-status completada">Completada</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Carlos Méndez Ruiz</span>
-                        <div class="doc-assigned">Atiende: Dr. Alejandro Pineda Ruiz</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="date-time">2025-03-01</div>
-                        <div class="sub-text">09:00 hrs</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="room-badge">Con. 103</span>
-                    </td>
-                    <td>
-                        <div class="reason-text"><span class="sub-text">Motivo:</span> Revisión presión</div>
-                        <div class="diag-text"><span class="sub-text">Diag:</span> Hipertensión leve</div>
-                    </td>
-                    <td>
-                        <div>Ajuste medicamento</div>
-                    </td>
-                    <td>
-                        <div class="cost-amount">$700</div>
-                        <div class="sub-text">Tarjeta</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge-status programada">Programada</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Fernanda López Díaz</span>
-                        <div class="doc-assigned">Atiende: Dra. Paola Martínez Cruz</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="date-time">2025-03-02</div>
-                        <div class="sub-text">16:00 hrs</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="room-badge">Con. 104</span>
-                    </td>
-                    <td>
-                        <div class="reason-text"><span class="sub-text">Motivo:</span> Control anemia</div>
-                        <div class="diag-text"><span class="sub-text">Diag:</span> Anemia</div>
-                    </td>
-                    <td>
-                        <div>Suplemento hierro</div>
-                    </td>
-                    <td>
-                        <div class="cost-amount">$650</div>
-                        <div class="sub-text">Efectivo</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge-status programada">Programada</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Jorge Ramírez Soto</span>
-                        <div class="doc-assigned">Atiende: Dr. Sergio Castillo Mora</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="date-time">2025-03-03</div>
-                        <div class="sub-text">11:30 hrs</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="room-badge">Con. 105</span>
-                    </td>
-                    <td>
-                        <div class="reason-text"><span class="sub-text">Motivo:</span> Dolor pie</div>
-                        <div class="diag-text"><span class="sub-text">Diag:</span> Úlcera diabética</div>
-                    </td>
-                    <td>
-                        <div>Curación y control</div>
-                    </td>
-                    <td>
-                        <div class="cost-amount">$800</div>
-                        <div class="sub-text">Transferencia</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge-status programada">Programada</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Daniela Torres Vega</span>
-                        <div class="doc-assigned">Atiende: Dra. Karla Jiménez Soto</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="date-time">2025-03-04</div>
-                        <div class="sub-text">17:00 hrs</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="room-badge">Con. 106</span>
-                    </td>
-                    <td>
-                        <div class="reason-text"><span class="sub-text">Motivo:</span> Irritación piel</div>
-                        <div class="diag-text"><span class="sub-text">Diag:</span> Dermatitis leve</div>
-                    </td>
-                    <td>
-                        <div>Crema tópica</div>
-                    </td>
-                    <td>
-                        <div class="cost-amount">$600</div>
-                        <div class="sub-text">Tarjeta</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge-status programada">Programada</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Luis Herrera Campos</span>
-                        <div class="doc-assigned">Atiende: Dr. Miguel Ángel Ríos</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="date-time">2025-03-05</div>
-                        <div class="sub-text">12:00 hrs</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="room-badge">Con. 105</span>
-                    </td>
-                    <td>
-                        <div class="reason-text"><span class="sub-text">Motivo:</span> Dolor cabeza</div>
-                        <div class="diag-text"><span class="sub-text">Diag:</span> Migraña</div>
-                    </td>
-                    <td>
-                        <div>Analgésicos</div>
-                    </td>
-                    <td>
-                        <div class="cost-amount">$750</div>
-                        <div class="sub-text">Efectivo</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge-status programada">Programada</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Mariana Cruz León</span>
-                        <div class="doc-assigned">Atiende: Dra. Laura Hernández Gil</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="date-time">2025-03-06</div>
-                        <div class="sub-text">10:00 hrs</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="room-badge">Con. 107</span>
-                    </td>
-                    <td>
-                        <div class="reason-text"><span class="sub-text">Motivo:</span> Revisión general</div>
-                        <div class="diag-text"><span class="sub-text">Diag:</span> Control rutinario</div>
-                    </td>
-                    <td>
-                        <div>Estudios</div>
-                    </td>
-                    <td>
-                        <div class="cost-amount">$700</div>
-                        <div class="sub-text">Transferencia</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge-status programada">Programada</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Ricardo Navarro Gil</span>
-                        <div class="doc-assigned">Atiende: Dr. Andrés Navarro León</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="date-time">2025-03-07</div>
-                        <div class="sub-text">18:30 hrs</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="room-badge">Con. 108</span>
-                    </td>
-                    <td>
-                        <div class="reason-text"><span class="sub-text">Motivo:</span> Colesterol</div>
-                        <div class="diag-text"><span class="sub-text">Diag:</span> Hiperlipidemia</div>
-                    </td>
-                    <td>
-                        <div>Dieta + estatinas</div>
-                    </td>
-                    <td>
-                        <div class="cost-amount">$850</div>
-                        <div class="sub-text">Tarjeta</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge-status programada">Programada</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="patient-name">Sofía Morales Ríos</span>
-                        <div class="doc-assigned">Atiende: Dra. Sofía Cabrera Torres</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="date-time">2025-03-08</div>
-                        <div class="sub-text">09:30 hrs</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="room-badge">Con. 110</span>
-                    </td>
-                    <td>
-                        <div class="reason-text"><span class="sub-text">Motivo:</span> Revisión vista</div>
-                        <div class="diag-text"><span class="sub-text">Diag:</span> Miopía leve</div>
-                    </td>
-                    <td>
-                        <div>Lentes graduados</div>
-                    </td>
-                    <td>
-                        <div class="cost-amount">$600</div>
-                        <div class="sub-text">Efectivo</div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge-status programada">Programada</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="admin-bar" id="adminBar">
+  <span>✅ Modo Admin Activo</span>
+  <button class="btn btn-danger btn-sm" onclick="logoutAdmin()">Cerrar sesión</button>
+</div>
 
+<div class="container">
+
+  <div class="card">
+    <div class="card-header" onclick="toggleForm()">
+      <span>📋 Nueva Cita Médica</span><span id="formArrow">▼</span>
+    </div>
+    <div class="card-body" id="formBody">
+      <div class="form-grid">
+        <div class="form-group"><label>Paciente *</label><input id="f_paciente" placeholder="Juan Pérez"></div>
+        <div class="form-group"><label>Médico Atendiente *</label><input id="f_medico" placeholder="Dr. Carlos Ramírez"></div>
+        <div class="form-group"><label>Fecha</label><input id="f_fecha" type="date"></div>
+        <div class="form-group"><label>Hora</label><input id="f_hora" type="time"></div>
+        <div class="form-group"><label>Consultorio</label><input id="f_consultorio" placeholder="Con. 101"></div>
+        <div class="form-group"><label>Motivo de Consulta</label><input id="f_motivo" placeholder="Dolor en el pecho"></div>
+        <div class="form-group"><label>Diagnóstico</label><input id="f_diagnostico" placeholder="Pendiente / Hipertensión..."></div>
+        <div class="form-group"><label>Tratamiento Indicado</label><input id="f_tratamiento" placeholder="Paracetamol / Pendiente"></div>
+        <div class="form-group"><label>Costo ($)</label><input id="f_costo" type="number" placeholder="800"></div>
+        <div class="form-group"><label>Forma de Pago</label>
+          <select id="f_formaPago"><option>Efectivo</option><option>Tarjeta</option><option>Transferencia</option></select>
+        </div>
+        <div class="form-group"><label>Estatus</label>
+          <select id="f_estatus"><option>Programada</option><option>Completada</option><option>Cancelada</option></select>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-success" onclick="guardar()">💾 Guardar Cita</button>
+        <button class="btn btn-warning" onclick="cancelarForm()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    Citas Registradas <span class="count-badge" id="conteo">0</span>
+  </div>
+  <div class="tabla-contenedor">
+    <table>
+      <thead>
+        <tr>
+          <th>Paciente / Médico</th>
+          <th>Fecha y Hora</th>
+          <th>Consultorio</th>
+          <th>Motivo y Diagnóstico</th>
+          <th>Tratamiento</th>
+          <th>Costo y Pago</th>
+          <th>Estatus</th>
+          <th id="col-acciones" style="display:none">Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tablaCitas">
+        <tr><td colspan="8" class="empty-state">Cargando...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL ADMIN -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal">
+    <h3>🔐 Acceso Administrador</h3>
+    <input type="password" id="adminPass" placeholder="Contraseña" onkeydown="if(event.key==='Enter')loginAdmin()">
+    <div id="adminError" style="color:#e74c3c;font-size:12px;margin-bottom:10px;display:none">Contraseña incorrecta</div>
+    <div class="modal-actions">
+      <button class="btn btn-admin" onclick="loginAdmin()">Ingresar</button>
+      <button class="btn" style="background:#eee" onclick="closeAdminModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDICIÓN -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>✏️ Editar Cita</h3>
+    <input type="hidden" id="e_id">
+    <label style="font-size:12px;font-weight:600;color:#555">PACIENTE</label>
+    <input id="e_paciente">
+    <label style="font-size:12px;font-weight:600;color:#555">MÉDICO</label>
+    <input id="e_medico">
+    <label style="font-size:12px;font-weight:600;color:#555">FECHA</label>
+    <input id="e_fecha" type="date">
+    <label style="font-size:12px;font-weight:600;color:#555">DIAGNÓSTICO</label>
+    <input id="e_diagnostico">
+    <label style="font-size:12px;font-weight:600;color:#555">TRATAMIENTO</label>
+    <input id="e_tratamiento">
+    <label style="font-size:12px;font-weight:600;color:#555">COSTO</label>
+    <input id="e_costo" type="number">
+    <label style="font-size:12px;font-weight:600;color:#555">ESTATUS</label>
+    <select id="e_estatus"><option>Programada</option><option>Completada</option><option>Cancelada</option></select>
+    <div class="modal-actions">
+      <button class="btn btn-success" onclick="actualizar()">💾 Guardar</button>
+      <button class="btn" style="background:#eee" onclick="closeEditModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API = '/api/citas';
+  let isAdmin = false;
+  let data = [];
+
+  async function cargar() {
+    try { const r = await fetch(API); data = await r.json(); renderTabla(data); } catch { renderTabla([]); }
+  }
+
+  function renderTabla(items) {
+    const tbody = document.getElementById('tablaCitas');
+    document.getElementById('conteo').textContent = items.length;
+    document.getElementById('col-acciones').style.display = isAdmin ? '' : 'none';
+    if (!items.length) { tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No hay citas registradas.</td></tr>'; return; }
+    tbody.innerHTML = items.map(c => `
+      <tr>
+        <td><div class="patient-name">${c.paciente || '-'}</div><div class="doc-assigned">Atiende: ${c.medico || '-'}</div></td>
+        <td><div class="date-time">${c.fecha || '-'}</div><div class="sub-text">${c.hora || ''} hrs</div></td>
+        <td style="text-align:center"><span class="room-badge">${c.consultorio || '-'}</span></td>
+        <td>
+          <div class="sub-text">Motivo: ${c.motivo || '-'}</div>
+          <div style="font-weight:600;font-size:13px">${c.diagnostico || 'Pendiente'}</div>
+        </td>
+        <td>${c.tratamiento || 'Pendiente'}</td>
+        <td><div class="cost-amount">$${c.costo || 0}</div><div class="sub-text">${c.formaPago || '-'}</div></td>
+        <td><span class="badge-status ${(c.estatus||'').toLowerCase()}">${c.estatus || '-'}</span></td>
+        ${isAdmin ? `<td><div class="action-btns">
+          <button class="btn btn-warning btn-sm" onclick="abrirEditar('${c._id}')">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="eliminar('${c._id}')">🗑️</button>
+        </div></td>` : '<td style="display:none"></td>'}
+      </tr>
+    `).join('');
+  }
+
+  async function guardar() {
+    const paciente = document.getElementById('f_paciente').value.trim();
+    if (!paciente) { alert('El nombre del paciente es obligatorio'); return; }
+    const body = { paciente, medico: document.getElementById('f_medico').value,
+      fecha: document.getElementById('f_fecha').value, hora: document.getElementById('f_hora').value,
+      consultorio: document.getElementById('f_consultorio').value, motivo: document.getElementById('f_motivo').value,
+      diagnostico: document.getElementById('f_diagnostico').value, tratamiento: document.getElementById('f_tratamiento').value,
+      costo: document.getElementById('f_costo').value, formaPago: document.getElementById('f_formaPago').value,
+      estatus: document.getElementById('f_estatus').value };
+    await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    cancelarForm(); cargar();
+  }
+
+  function abrirEditar(id) {
+    const c = data.find(x => x._id === id); if (!c) return;
+    document.getElementById('e_id').value = c._id;
+    document.getElementById('e_paciente').value = c.paciente || '';
+    document.getElementById('e_medico').value = c.medico || '';
+    document.getElementById('e_fecha').value = c.fecha || '';
+    document.getElementById('e_diagnostico').value = c.diagnostico || '';
+    document.getElementById('e_tratamiento').value = c.tratamiento || '';
+    document.getElementById('e_costo').value = c.costo || '';
+    document.getElementById('e_estatus').value = c.estatus || 'Programada';
+    document.getElementById('editModal').classList.add('open');
+  }
+
+  async function actualizar() {
+    const id = document.getElementById('e_id').value;
+    const body = { paciente: document.getElementById('e_paciente').value, medico: document.getElementById('e_medico').value,
+      fecha: document.getElementById('e_fecha').value, diagnostico: document.getElementById('e_diagnostico').value,
+      tratamiento: document.getElementById('e_tratamiento').value, costo: document.getElementById('e_costo').value,
+      estatus: document.getElementById('e_estatus').value };
+    await fetch(`${API}/${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    closeEditModal(); cargar();
+  }
+
+  async function eliminar(id) {
+    if (!confirm('¿Eliminar esta cita?')) return;
+    await fetch(`${API}/${id}`, { method:'DELETE' }); cargar();
+  }
+
+  function toggleForm() { document.getElementById('formBody').classList.toggle('open'); document.getElementById('formArrow').textContent = document.getElementById('formBody').classList.contains('open') ? '▲' : '▼'; }
+  function cancelarForm() { document.getElementById('formBody').classList.remove('open'); document.getElementById('formArrow').textContent = '▼'; }
+  function closeEditModal() { document.getElementById('editModal').classList.remove('open'); }
+  function openAdminModal() { document.getElementById('adminModal').classList.add('open'); document.getElementById('adminPass').value=''; document.getElementById('adminError').style.display='none'; }
+  function closeAdminModal() { document.getElementById('adminModal').classList.remove('open'); }
+
+  async function loginAdmin() {
+    const pass = document.getElementById('adminPass').value;
+    const res = await fetch('/api/admin/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password: pass}) });
+    const d = await res.json();
+    if (d.success) { isAdmin = true; closeAdminModal(); document.getElementById('adminBar').classList.add('visible'); renderTabla(data); }
+    else { document.getElementById('adminError').style.display = 'block'; }
+  }
+
+  function logoutAdmin() { isAdmin = false; document.getElementById('adminBar').classList.remove('visible'); renderTabla(data); }
+
+  cargar();
+</script>
 </body>
 </html>
